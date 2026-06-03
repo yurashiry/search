@@ -16,10 +16,8 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ========== ТЕМЫ ========== */
         body.light {
             --bg-primary: #f0f2f5;
-            --bg-secondary: #ffffff;
             --text-primary: #1a1a2e;
             --text-secondary: #5f6368;
             --accent: #4285f4;
@@ -27,13 +25,11 @@
             --border: #dadce0;
             --card-bg: #ffffff;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
             --input-bg: #ffffff;
         }
 
         body.dark {
             --bg-primary: #121212;
-            --bg-secondary: #1e1e2e;
             --text-primary: #e8eaed;
             --text-secondary: #9aa0a6;
             --accent: #8ab4f8;
@@ -41,13 +37,11 @@
             --border: #3c4043;
             --card-bg: #1e1e2e;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
             --input-bg: #2d2d3d;
         }
 
         body.colorful {
             --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            --bg-secondary: rgba(255, 255, 255, 0.1);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.85);
             --accent: #ffd93d;
@@ -55,7 +49,6 @@
             --border: rgba(255, 255, 255, 0.25);
             --card-bg: rgba(255, 255, 255, 0.12);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.25);
             --input-bg: rgba(255, 255, 255, 0.2);
         }
 
@@ -67,16 +60,9 @@
             transition: all 0.3s ease;
         }
 
-        /* Анимации */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeIn {
@@ -84,26 +70,10 @@
             to { opacity: 1; }
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .container {
@@ -113,7 +83,6 @@
             min-height: 100vh;
         }
 
-        /* Логотип */
         .logo-section {
             text-align: center;
             padding: 60px 0 40px;
@@ -123,12 +92,11 @@
         .logo {
             font-size: 68px;
             font-weight: 800;
-            background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc04, #34a853, #4285f4);
+            background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc04, #34a853);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -2px;
             animation: gradientShift 6s ease infinite;
         }
 
@@ -136,10 +104,8 @@
             font-size: 14px;
             opacity: 0.7;
             margin-top: 10px;
-            letter-spacing: 1px;
         }
 
-        /* Поисковая строка - ИСПРАВЛЕНО */
         .search-container {
             margin: 0 auto 20px;
             max-width: 580px;
@@ -149,7 +115,6 @@
         .search-wrapper {
             display: flex;
             align-items: center;
-            gap: 0;
             background: var(--input-bg);
             border: 2px solid var(--border);
             border-radius: 60px;
@@ -160,7 +125,6 @@
 
         .search-wrapper:focus-within {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
             border-color: var(--accent);
         }
 
@@ -172,8 +136,6 @@
             background: transparent;
             color: var(--text-primary);
             outline: none;
-            font-weight: 400;
-            min-width: 0;
         }
 
         #searchInput::placeholder {
@@ -202,39 +164,21 @@
             background: var(--accent-hover);
         }
 
-        #searchBtn:active {
-            transform: scale(0.96);
-        }
-
-        /* Ссылка на Яндекс */
         .yandex-link {
             text-align: center;
             margin-bottom: 30px;
-            animation: fadeInUp 0.6s ease 0.2s both;
         }
 
         .yandex-link a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 13px;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 8px 18px;
             border-radius: 40px;
-            background: var(--bg-secondary);
-            backdrop-filter: blur(10px);
-        }
-
-        .yandex-link a:hover {
-            color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        /* Результаты */
-        #results {
-            margin-top: 30px;
+            background: var(--card-bg);
         }
 
         .result-card {
@@ -245,13 +189,7 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             animation: fadeInUp 0.4s ease;
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-        }
-
-        .result-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
         }
 
         .result-title {
@@ -264,33 +202,20 @@
             gap: 10px;
         }
 
-        .result-title a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
         .custom-badge {
             background: linear-gradient(135deg, #34a853, #1e8e3e);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 10px;
-            font-weight: 600;
         }
 
         .result-snippet {
             font-size: 14px;
             line-height: 1.5;
-            opacity: 0.85;
             margin-bottom: 12px;
         }
 
-        .result-meta {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Панель пользователя */
         .user-bar {
             position: fixed;
             top: 20px;
@@ -302,14 +227,8 @@
             padding: 8px 18px;
             border-radius: 50px;
             box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
             z-index: 100;
-            transition: all 0.3s ease;
             border: 1px solid var(--border);
-        }
-
-        .user-bar:hover {
-            transform: translateY(-2px);
         }
 
         .user-info-display {
@@ -317,8 +236,6 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 40px;
         }
 
         .user-avatar {
@@ -331,17 +248,9 @@
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: 14px;
             overflow: hidden;
         }
 
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Панель тем */
         .theme-bar {
             position: fixed;
             bottom: 30px;
@@ -362,15 +271,9 @@
             font-size: 22px;
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
         }
 
-        .theme-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Профиль панель */
         .profile-panel {
             position: fixed;
             top: 0;
@@ -380,7 +283,6 @@
             height: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            box-shadow: -4px 0 32px rgba(0, 0, 0, 0.3);
             transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1001;
             padding: 24px;
@@ -402,7 +304,6 @@
             backdrop-filter: blur(4px);
             display: none;
             z-index: 1000;
-            animation: fadeIn 0.3s ease;
         }
 
         .admin-section {
@@ -419,12 +320,6 @@
             border: 1px solid var(--border);
             background: var(--input-bg);
             color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        textarea:focus, input:focus {
-            outline: none;
-            border-color: var(--accent);
         }
 
         button {
@@ -434,14 +329,6 @@
             padding: 10px 20px;
             border-radius: 40px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
         }
 
         .close-panel-btn {
@@ -460,7 +347,7 @@
         }
 
         code {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
             padding: 4px 8px;
             border-radius: 8px;
             font-size: 11px;
@@ -488,18 +375,8 @@
 
         @media (max-width: 600px) {
             .logo { font-size: 48px; }
-            .logo-section { padding: 50px 0 30px; }
             .search-wrapper { padding: 4px 4px 4px 18px; }
-            #searchInput { padding: 14px 6px; font-size: 15px; }
-            #searchBtn { width: 48px; height: 48px; font-size: 20px; }
-            .result-card { padding: 16px; }
-            .user-bar { padding: 6px 14px; }
-        }
-
-        @media (max-width: 480px) {
-            .user-bar { top: 10px; right: 10px; }
-            .theme-bar { bottom: 20px; right: 10px; }
-            .theme-btn { width: 42px; height: 42px; font-size: 18px; }
+            #searchBtn { width: 48px; height: 48px; }
         }
     </style>
 </head>
@@ -508,7 +385,7 @@
     
     <div class="profile-panel" id="profilePanel">
         <button class="close-panel-btn" onclick="closeProfile()">✕</button>
-        <h2 style="margin-bottom: 20px;">👤 Мой профиль</h2>
+        <h2>👤 Мой профиль</h2>
         <div id="profileContent"></div>
     </div>
 
@@ -546,35 +423,22 @@
     </div>
 
     <script>
-        // ========== GOOGLE CLIENT ID (ЗАМЕНИТЕ НА ВАШ) ==========
+        // ========== ВАШ GOOGLE CLIENT ID ==========
         const GOOGLE_CLIENT_ID = '727787416139-3nlhl4di044oils2liot2sjo1mj5iumv.apps.googleusercontent.com';
 
         // ========== КАСТОМНЫЕ ОТВЕТЫ ==========
         const customAnswers = {
             'веронто': { title: '📌 Компания Веронто (WeRonto)', snippet: 'Компания "WeRonto" распалась в 2026 году, сервера выключились. Сейчас не действует, работает под новым брендом: WR (от компании sonne™).' },
-            'weronto': { title: '📌 Компания WeRonto', snippet: 'Компания "WeRonto" распалась в 2026 году. Работает под новым брендом: WR (от компании sonne™).' },
-            'вр': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: WR Video, WR SRBIJA. Истинный владелец — sonne™.' },
-            'wr': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Истинный владелец — sonne™.' },
-            'mike': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™ (Юрия Ширяева). Владеет телекомпанией HYPER в Алтайске. Активно ведёт деятельность в WR eVision.' },
-            'maik': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™. Владелец HYPER, участник WR eVision.' },
-            'юрий ширяев': { title: '👤 Юрий Ширяев', snippet: 'Создатель компаний: Morento (продана), WR, sonne™. Создатель конкурса WR eVision (май, продолжение в июне).' },
-            'yurskk': { title: '👤 Юрий Ширяев', snippet: 'Создатель sonne™, WR. Организатор WR eVision.' },
-            'сонне': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Конкурирует с ведущими компаниями СНГ. Владеет WR и HAORÏK.' },
+            'wr': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: WR Video, WR SRBIJA.' },
+            'mike': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™. Владеет телекомпанией HYPER в Алтайске.' },
+            'юрий ширяев': { title: '👤 Юрий Ширяев', snippet: 'Создатель компаний: Morento, WR, sonne™. Создатель конкурса WR eVision.' },
             'sonne': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Владеет WR и HAORÏK.' },
-            'хайпер': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске, принадлежит Майку. Работает вместе с sonne™. Владеет HYPER TV — главным телеканалом Алтайска.' },
-            'hyper': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске. HYPER TV — главный телеканал Алтайска.' },
-            'wrevison': { title: '🎤 WR eVision', snippet: 'Конкурс, созданный Юрием Ширяевым. Проходил в мае, продолжение в июне.' },
-            'wr evision': { title: '🎤 WR eVision', snippet: 'Музыкальный конкурс от Юрия Ширяева. Продолжение в июне.' },
-            'haorïk': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™, специализируется на инновационных IT-решениях.' },
-            'haorik': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™.' },
-            'morento': { title: '📌 Morento', snippet: 'Ранее существовавшая компания, продана и уничтожена. Создатель — Юрий Ширяев.' }
+            'hyper': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске. HYPER TV — главный телеканал Алтайска.' }
         };
 
-        // ========== ПЕРЕМЕННЫЕ ==========
         let currentUser = null;
         let usersDB = {};
 
-        // ========== ХРАНИЛИЩЕ ==========
         function loadUsersFromStorage() {
             const saved = localStorage.getItem('wr_users_db');
             if (saved) usersDB = JSON.parse(saved);
@@ -586,12 +450,9 @@
 
         function loadCustomAnswers() {
             const saved = localStorage.getItem('wr_custom_answers');
-            if (saved) {
-                Object.assign(customAnswers, JSON.parse(saved));
-            }
+            if (saved) Object.assign(customAnswers, JSON.parse(saved));
         }
 
-        // ========== ТЕМЫ ==========
         function setTheme(theme) {
             document.body.className = theme;
             localStorage.setItem('wr_theme', theme);
@@ -602,7 +463,6 @@
             setTheme(saved);
         }
 
-        // ========== УВЕДОМЛЕНИЯ ==========
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
             toast.textContent = message;
@@ -615,31 +475,24 @@
                 color: white;
                 padding: 12px 24px;
                 border-radius: 50px;
-                font-size: 14px;
                 z-index: 2000;
                 animation: fadeInUp 0.3s ease;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-                white-space: nowrap;
             `;
             document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        // ========== GOOGLE LOGIN ==========
+        // Google Login
         function initGoogleLogin() {
-            if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'ВАШ_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
-                console.warn('Google Client ID не настроен');
+            if (!GOOGLE_CLIENT_ID) {
+                console.error('Google Client ID не настроен');
                 return;
             }
             
             google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleCredential,
-                auto_select: false,
-                cancel_on_tap_outside: true
+                auto_select: false
             });
             
             google.accounts.id.renderButton(
@@ -648,8 +501,7 @@
                     theme: 'outline', 
                     size: 'medium',
                     text: 'signin_with',
-                    shape: 'pill',
-                    width: 120
+                    shape: 'pill'
                 }
             );
         }
@@ -657,16 +509,12 @@
         function parseJwt(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+            return JSON.parse(atob(base64));
         }
 
-        async function handleGoogleCredential(response) {
+        function handleGoogleCredential(response) {
             try {
                 const payload = parseJwt(response.credential);
-                
                 currentUser = {
                     id: payload.sub,
                     name: payload.name,
@@ -687,41 +535,29 @@
                 closeProfile();
                 showToast('✅ Добро пожаловать, ' + currentUser.name);
             } catch(e) {
-                console.error('Google login error:', e);
                 showToast('❌ Ошибка входа', true);
             }
-        }
-
-        // ========== ПОИСК ==========
-        function normalizeQuery(query) {
-            return query.toLowerCase().trim().replace(/[^а-яa-z0-9]/g, '');
         }
 
         function search() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) return;
             
-            const normalizedQuery = normalizeQuery(query);
+            const normalizedQuery = query.toLowerCase().trim();
             const resultsDiv = document.getElementById('results');
             
-            const yandexLink = document.getElementById('yandexSearchLink');
-            yandexLink.href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
-            yandexLink.target = '_blank';
+            document.getElementById('yandexSearchLink').href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
+            document.getElementById('yandexSearchLink').target = '_blank';
             
             let found = null;
             for (const [key, value] of Object.entries(customAnswers)) {
-                if (normalizedQuery === key || normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
+                if (normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
                     found = value;
                     break;
                 }
             }
             
-            resultsDiv.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <div>Поиск...</div>
-                </div>
-            `;
+            resultsDiv.innerHTML = `<div class="loading"><div class="loading-spinner"></div><div>Поиск...</div></div>`;
             
             setTimeout(() => {
                 if (found) {
@@ -732,7 +568,6 @@
                                 <span class="custom-badge">WR Search</span>
                             </div>
                             <div class="result-snippet">${found.snippet}</div>
-                            <div class="result-meta">📌 Кастомный ответ WR Search</div>
                         </div>
                     `;
                 } else {
@@ -740,9 +575,6 @@
                         <div class="result-card">
                             <div class="result-title">🔍 Ничего не найдено</div>
                             <div class="result-snippet">По запросу «${query}» нет информации в базе WR Search.</div>
-                            <div class="result-meta">
-                                <a href="https://yandex.ru/search/?text=${encodeURIComponent(query)}" target="_blank" style="color: var(--accent);">🔎 Искать в Яндексе →</a>
-                            </div>
                         </div>
                     `;
                 }
@@ -756,13 +588,12 @@
             }, 300);
         }
 
-        // ========== ПРОФИЛЬ ==========
         function updateUserUI() {
             if (currentUser) {
-                const initial = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+                const initial = currentUser.name?.charAt(0).toUpperCase() || 'U';
                 document.getElementById('userStatus').innerHTML = `
                     <div class="user-avatar">
-                        ${currentUser.picture ? `<img src="${currentUser.picture}" alt="avatar">` : initial}
+                        ${currentUser.picture ? `<img src="${currentUser.picture}" style="width:100%;height:100%;object-fit:cover;">` : initial}
                     </div>
                     <span>${currentUser.name}</span>
                 `;
@@ -771,40 +602,29 @@
             }
         }
 
-        function getSearchHistoryHTML() {
-            const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser?.id}`) || '[]');
-            if (history.length === 0) return '<em>Нет истории поиска</em>';
-            return history.slice(0, 10).map(h => `
-                <div style="padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-                    <span>🔍 ${h.query}</span>
-                    <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span>
-                </div>
-            `).join('');
-        }
-
         function openProfile() {
             if (!currentUser) {
-                showToast('🔑 Войдите через Google, чтобы открыть профиль');
+                showToast('🔑 Войдите через Google');
                 return;
             }
             
             const user = usersDB[currentUser.id] || currentUser;
             
             document.getElementById('profileContent').innerHTML = `
-                <div>
+                <div style="margin: 20px 0">
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
                         <div class="user-avatar" style="width: 64px; height: 64px; font-size: 28px;">
-                            ${user.picture ? `<img src="${user.picture}">` : (user.name ? user.name.charAt(0) : 'U')}
+                            ${user.picture ? `<img src="${user.picture}" style="width:100%;height:100%;object-fit:cover;">` : (user.name?.charAt(0) || 'U')}
                         </div>
                         <div>
-                            <h3 style="margin: 0;">${user.name}</h3>
-                            <div style="margin-top: 5px;">${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
+                            <h3>${user.name}</h3>
+                            <div>${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
                         </div>
                     </div>
                     
                     <div><strong>🆔 Уникальный ID:</strong><br>
                         <code>${user.id}</code>
-                        <button onclick="copyUserId()" style="margin-top: 8px; padding: 6px 12px;">📋 Копировать</button>
+                        <button onclick="copyUserId()" style="margin-top: 8px;">📋 Копировать</button>
                     </div>
                     
                     <hr>
@@ -813,31 +633,34 @@
                     
                     <div style="margin: 15px 0">
                         <label>📝 Описание профиля:</label>
-                        <textarea id="bioInput" rows="3" placeholder="Расскажите о себе...">${user.bio || ''}</textarea>
+                        <textarea id="bioInput" rows="3">${user.bio || ''}</textarea>
                         <button onclick="updateBio()">💾 Сохранить</button>
                     </div>
                     
                     <hr>
                     
                     <div><strong>📜 История поиска:</strong></div>
-                    <div style="font-size: 13px; max-height: 200px; overflow-y: auto; margin-top: 8px;">
-                        ${getSearchHistoryHTML()}
-                    </div>
+                    <div id="searchHistory"></div>
                 </div>
                 ${user.role === 'admin' ? `
                     <div class="admin-section">
                         <h3>🔧 Админ-панель</h3>
                         <input type="text" id="newQueryKey" placeholder="Ключевое слово">
-                        <input type="text" id="newQueryTitle" placeholder="Заголовок ответа">
+                        <input type="text" id="newQueryTitle" placeholder="Заголовок">
                         <textarea id="newQueryAnswer" rows="2" placeholder="Текст ответа..."></textarea>
                         <button onclick="addCustomAnswer()">➕ Добавить ответ</button>
-                        <button onclick="viewAllCustomAnswers()" style="background: #34a853;">📋 Все ответы</button>
-                        <button onclick="viewAllUsers()" style="background: #fbbc04; color:#000;">👥 Пользователи</button>
-                        <div id="adminCustomList" style="margin-top: 12px;"></div>
+                        <button onclick="viewAllCustomAnswers()">📋 Все ответы</button>
+                        <div id="adminCustomList"></div>
                     </div>
                 ` : ''}
                 <button onclick="logout()" style="background:#ea4335; margin-top: 20px; width: 100%;">🚪 Выйти</button>
             `;
+            
+            // Загружаем историю
+            const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
+            document.getElementById('searchHistory').innerHTML = history.slice(0, 10).map(h => `
+                <div style="padding: 8px 0; border-bottom: 1px solid var(--border);">🔍 ${h.query} <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span></div>
+            `).join('') || '<em>Нет истории</em>';
             
             document.getElementById('profilePanel').classList.add('open');
             document.getElementById('overlay').style.display = 'block';
@@ -860,21 +683,18 @@
             if (currentUser) {
                 if (!usersDB[currentUser.id]) usersDB[currentUser.id] = currentUser;
                 usersDB[currentUser.id].bio = bio;
-                currentUser.bio = bio;
                 saveUsersToStorage();
-                localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
                 showToast('✅ Описание сохранено!');
             }
         }
         
-        // ========== АДМИН ФУНКЦИИ ==========
         function addCustomAnswer() {
             const key = document.getElementById('newQueryKey').value.toLowerCase().trim();
             const title = document.getElementById('newQueryTitle').value.trim();
             const answer = document.getElementById('newQueryAnswer').value.trim();
             
             if (!key || !answer) {
-                showToast('Заполните ключевое слово и ответ!', true);
+                showToast('Заполните поля!', true);
                 return;
             }
             
@@ -882,10 +702,8 @@
                 title: title || `📌 Информация по запросу "${key}"`,
                 snippet: answer
             };
-            
             localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswers));
             showToast(`✅ Добавлен ответ для "${key}"`);
-            
             document.getElementById('newQueryKey').value = '';
             document.getElementById('newQueryTitle').value = '';
             document.getElementById('newQueryAnswer').value = '';
@@ -895,23 +713,16 @@
         function viewAllCustomAnswers() {
             const container = document.getElementById('adminCustomList');
             if (!container) return;
-            
-            const keys = Object.keys(customAnswers);
-            container.innerHTML = `
-                <strong>Всего ответов: ${keys.length}</strong>
-                <div style="max-height: 250px; overflow-y: auto; margin-top: 8px;">
-                    ${keys.map(k => `
-                        <div style="padding: 8px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                            <span><strong>${k}</strong><br><span style="font-size: 10px;">${customAnswers[k].snippet.substring(0, 40)}...</span></span>
-                            <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 4px 12px;">🗑</button>
-                        </div>
-                    `).join('')}
+            container.innerHTML = Object.keys(customAnswers).map(k => `
+                <div style="padding: 8px; border-bottom: 1px solid var(--border);">
+                    <strong>${k}</strong>: ${customAnswers[k].snippet.substring(0, 50)}...
+                    <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 4px 12px;">🗑</button>
                 </div>
-            `;
+            `).join('');
         }
         
         function deleteCustomAnswer(key) {
-            if (confirm(`Удалить ответ для "${key}"?`)) {
+            if (confirm('Удалить?')) {
                 delete customAnswers[key];
                 localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswers));
                 viewAllCustomAnswers();
@@ -919,66 +730,13 @@
             }
         }
         
-        function viewAllUsers() {
-            const container = document.getElementById('adminCustomList');
-            if (!container) return;
-            
-            const users = Object.values(usersDB);
-            container.innerHTML = `
-                <strong>Всего пользователей: ${users.length}</strong>
-                <div style="max-height: 300px; overflow-y: auto; margin-top: 8px;">
-                    ${users.map(u => `
-                        <div style="padding: 10px; border-bottom: 1px solid var(--border);">
-                            <div><strong>${u.name || 'Без имени'}</strong> (${u.email || 'нет email'})</div>
-                            <div style="font-size: 10px;">ID: ${u.id.substring(0, 30)}...</div>
-                            <div>${u.verified ? '✅ Верифицирован' : '⭐ Не верифицирован'}</div>
-                            <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
-                                <button onclick="verifyUser('${u.id}', true)" style="background:#34a853;">✅ Верифицировать</button>
-                                <button onclick="verifyUser('${u.id}', false)" style="background:#ea4335;">❌ Снять</button>
-                                ${u.role !== 'admin' ? `<button onclick="makeAdmin('${u.id}')" style="background:#fbbc04; color:#000;">👑 Админ</button>` : '<span style="color:#34a853;">👑 Админ</span>'}
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-                <button onclick="viewAllCustomAnswers()" style="margin-top: 12px;">← Назад к ответам</button>
-            `;
-        }
-        
-        function verifyUser(userId, verified) {
-            if (usersDB[userId]) {
-                usersDB[userId].verified = verified;
-                saveUsersToStorage();
-                if (currentUser && currentUser.id === userId) {
-                    currentUser.verified = verified;
-                    localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
-                }
-                viewAllUsers();
-                showToast(`Статус обновлён!`);
-            }
-        }
-        
-        function makeAdmin(userId) {
-            if (usersDB[userId]) {
-                usersDB[userId].role = 'admin';
-                saveUsersToStorage();
-                if (currentUser && currentUser.id === userId) {
-                    currentUser.role = 'admin';
-                    localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
-                }
-                viewAllUsers();
-                showToast(`Пользователь теперь администратор!`);
-            }
-        }
-        
         function logout() {
-            if (google.accounts?.id) {
-                google.accounts.id.disableAutoSelect();
-            }
+            if (google.accounts?.id) google.accounts.id.disableAutoSelect();
             localStorage.removeItem('wr_current_user');
             currentUser = null;
             updateUserUI();
             closeProfile();
-            showToast('👋 Вы вышли из аккаунта');
+            showToast('👋 Вы вышли');
         }
         
         function checkAuth() {
@@ -989,7 +747,7 @@
             }
         }
         
-        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
             loadUsersFromStorage();
@@ -1005,11 +763,8 @@
             
             document.getElementById('searchInput').addEventListener('input', () => {
                 const query = document.getElementById('searchInput').value;
-                const yandexLink = document.getElementById('yandexSearchLink');
                 if (query) {
-                    yandexLink.href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
-                } else {
-                    yandexLink.href = '#';
+                    document.getElementById('yandexSearchLink').href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
                 }
             });
         });
