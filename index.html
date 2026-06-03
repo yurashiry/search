@@ -423,17 +423,29 @@
     </div>
 
     <script>
-        // ========== ВАШ GOOGLE CLIENT ID ==========
+        // ========== КОНФИГУРАЦИЯ ==========
         const GOOGLE_CLIENT_ID = '727787416139-3nlhl4di044oils2liot2sjo1mj5iumv.apps.googleusercontent.com';
+        const ADMIN_USER_ID = '108637281898787580618'; // Ваш ID - вы всегда админ!
 
         // ========== КАСТОМНЫЕ ОТВЕТЫ ==========
         const customAnswers = {
             'веронто': { title: '📌 Компания Веронто (WeRonto)', snippet: 'Компания "WeRonto" распалась в 2026 году, сервера выключились. Сейчас не действует, работает под новым брендом: WR (от компании sonne™).' },
-            'wr': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: WR Video, WR SRBIJA.' },
-            'mike': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™. Владеет телекомпанией HYPER в Алтайске.' },
-            'юрий ширяев': { title: '👤 Юрий Ширяев', snippet: 'Создатель компаний: Morento, WR, sonne™. Создатель конкурса WR eVision.' },
+            'weronto': { title: '📌 Компания WeRonto', snippet: 'Компания "WeRonto" распалась в 2026 году. Работает под новым брендом: WR (от компании sonne™).' },
+            'вр': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: WR Video, WR SRBIJA. Истинный владелец — sonne™.' },
+            'wr': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Истинный владелец — sonne™.' },
+            'mike': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™ (Юрия Ширяева). Владеет телекомпанией HYPER в Алтайске. Активно ведёт деятельность в WR eVision.' },
+            'maik': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™. Владелец HYPER, участник WR eVision.' },
+            'юрий ширяев': { title: '👤 Юрий Ширяев', snippet: 'Создатель компаний: Morento (продана), WR, sonne™. Создатель конкурса WR eVision (май, продолжение в июне).' },
+            'yurskk': { title: '👤 Юрий Ширяев', snippet: 'Создатель sonne™, WR. Организатор WR eVision.' },
+            'сонне': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Конкурирует с ведущими компаниями СНГ. Владеет WR и HAORÏK.' },
             'sonne': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Владеет WR и HAORÏK.' },
-            'hyper': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске. HYPER TV — главный телеканал Алтайска.' }
+            'хайпер': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске, принадлежит Майку. Работает вместе с sonne™. Владеет HYPER TV — главным телеканалом Алтайска.' },
+            'hyper': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске. HYPER TV — главный телеканал Алтайска.' },
+            'wrevison': { title: '🎤 WR eVision', snippet: 'Конкурс, созданный Юрием Ширяевым. Проходил в мае, продолжение в июне.' },
+            'wr evision': { title: '🎤 WR eVision', snippet: 'Музыкальный конкурс от Юрия Ширяева. Продолжение в июне.' },
+            'haorïk': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™, специализируется на инновационных IT-решениях.' },
+            'haorik': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™.' },
+            'morento': { title: '📌 Morento', snippet: 'Ранее существовавшая компания, продана и уничтожена. Создатель — Юрий Ширяев.' }
         };
 
         let currentUser = null;
@@ -515,12 +527,16 @@
         function handleGoogleCredential(response) {
             try {
                 const payload = parseJwt(response.credential);
+                
+                // Определяем роль: если ID совпадает с админским - даём права админа
+                const isAdmin = (payload.sub === ADMIN_USER_ID);
+                
                 currentUser = {
                     id: payload.sub,
                     name: payload.name,
                     email: payload.email,
                     picture: payload.picture,
-                    role: usersDB[payload.sub]?.role || 'user',
+                    role: isAdmin ? 'admin' : (usersDB[payload.sub]?.role || 'user'),
                     verified: usersDB[payload.sub]?.verified || false,
                     bio: usersDB[payload.sub]?.bio || ''
                 };
@@ -533,7 +549,12 @@
                 localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
                 updateUserUI();
                 closeProfile();
-                showToast('✅ Добро пожаловать, ' + currentUser.name);
+                
+                if (isAdmin) {
+                    showToast('✅ Добро пожаловать, Администратор ' + currentUser.name);
+                } else {
+                    showToast('✅ Добро пожаловать, ' + currentUser.name);
+                }
             } catch(e) {
                 showToast('❌ Ошибка входа', true);
             }
@@ -597,8 +618,12 @@
                     </div>
                     <span>${currentUser.name}</span>
                 `;
+                // Скрываем кнопку Google после входа
+                document.getElementById('googleBtn').style.display = 'none';
             } else {
                 document.getElementById('userStatus').innerHTML = '<span>👤 Гость</span>';
+                // Показываем кнопку Google для гостя
+                document.getElementById('googleBtn').style.display = 'block';
             }
         }
 
@@ -619,6 +644,7 @@
                         <div>
                             <h3>${user.name}</h3>
                             <div>${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
+                            ${user.role === 'admin' ? '<div><span class="verified-badge">👑 Администратор</span></div>' : ''}
                         </div>
                     </div>
                     
@@ -645,18 +671,18 @@
                 ${user.role === 'admin' ? `
                     <div class="admin-section">
                         <h3>🔧 Админ-панель</h3>
-                        <input type="text" id="newQueryKey" placeholder="Ключевое слово">
-                        <input type="text" id="newQueryTitle" placeholder="Заголовок">
+                        <input type="text" id="newQueryKey" placeholder="Ключевое слово (например: wr)">
+                        <input type="text" id="newQueryTitle" placeholder="Заголовок ответа">
                         <textarea id="newQueryAnswer" rows="2" placeholder="Текст ответа..."></textarea>
                         <button onclick="addCustomAnswer()">➕ Добавить ответ</button>
                         <button onclick="viewAllCustomAnswers()">📋 Все ответы</button>
-                        <div id="adminCustomList"></div>
+                        <button onclick="viewAllUsers()" style="background: #34a853;">👥 Управление пользователями</button>
+                        <div id="adminCustomList" style="margin-top: 12px;"></div>
                     </div>
                 ` : ''}
                 <button onclick="logout()" style="background:#ea4335; margin-top: 20px; width: 100%;">🚪 Выйти</button>
             `;
             
-            // Загружаем историю
             const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
             document.getElementById('searchHistory').innerHTML = history.slice(0, 10).map(h => `
                 <div style="padding: 8px 0; border-bottom: 1px solid var(--border);">🔍 ${h.query} <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span></div>
@@ -694,7 +720,7 @@
             const answer = document.getElementById('newQueryAnswer').value.trim();
             
             if (!key || !answer) {
-                showToast('Заполните поля!', true);
+                showToast('Заполните ключевое слово и ответ!', true);
                 return;
             }
             
@@ -713,16 +739,50 @@
         function viewAllCustomAnswers() {
             const container = document.getElementById('adminCustomList');
             if (!container) return;
-            container.innerHTML = Object.keys(customAnswers).map(k => `
-                <div style="padding: 8px; border-bottom: 1px solid var(--border);">
-                    <strong>${k}</strong>: ${customAnswers[k].snippet.substring(0, 50)}...
-                    <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 4px 12px;">🗑</button>
+            container.innerHTML = '<strong>Все кастомные ответы:</strong><br>' + 
+                Object.keys(customAnswers).map(k => `
+                    <div style="padding: 8px; border-bottom: 1px solid var(--border); margin-top: 5px;">
+                        <strong>${k}</strong>: ${customAnswers[k].snippet.substring(0, 60)}...
+                        <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 4px 12px; margin-left: 8px;">🗑</button>
+                    </div>
+                `).join('');
+        }
+        
+        function viewAllUsers() {
+            const container = document.getElementById('adminCustomList');
+            if (!container) return;
+            
+            const users = Object.values(usersDB);
+            container.innerHTML = `
+                <strong>Всего пользователей: ${users.length}</strong>
+                <div style="max-height: 300px; overflow-y: auto; margin-top: 8px;">
+                    ${users.map(u => `
+                        <div style="padding: 10px; border-bottom: 1px solid var(--border);">
+                            <div><strong>${u.name || 'Без имени'}</strong> (${u.email || 'нет email'})</div>
+                            <div style="font-size: 10px;">ID: ${u.id.substring(0, 30)}...</div>
+                            <div>${u.verified ? '✅ Верифицирован' : '⭐ Не верифицирован'}</div>
+                            <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                                <button onclick="verifyUser('${u.id}', true)" style="background:#34a853;">✅ Верифицировать</button>
+                                <button onclick="verifyUser('${u.id}', false)" style="background:#ea4335;">❌ Снять</button>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+                <button onclick="viewAllCustomAnswers()" style="margin-top: 12px;">← Назад к ответам</button>
+            `;
+        }
+        
+        function verifyUser(userId, verified) {
+            if (usersDB[userId]) {
+                usersDB[userId].verified = verified;
+                saveUsersToStorage();
+                viewAllUsers();
+                showToast(`Статус пользователя обновлён!`);
+            }
         }
         
         function deleteCustomAnswer(key) {
-            if (confirm('Удалить?')) {
+            if (confirm(`Удалить ответ для "${key}"?`)) {
                 delete customAnswers[key];
                 localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswers));
                 viewAllCustomAnswers();
