@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>WR Search - от компании sonne™</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.light {
+            --bg: #ffffff;
+            --text: #202124;
+            --card: #ffffff;
+            --border: #dfe1e5;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body.dark {
+            --bg: #202124;
+            --text: #e8eaed;
+            --card: #303134;
+            --border: #5f6368;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        body.colorful {
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text: #ffffff;
+            --card: rgba(255,255,255,0.95);
+            --border: rgba(255,255,255,0.3);
+            --shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            text-align: center;
+            padding: 60px 0 30px;
+        }
+
+        .logo {
+            font-size: 52px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc04, #34a853);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 14px 18px;
+            font-size: 16px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: var(--card);
+            color: var(--text);
+            outline: none;
+        }
+
+        #searchBtn {
+            padding: 14px 24px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: var(--card);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .result-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .result-title a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+
+        body.dark .result-title a {
+            color: #8ab4f8;
+        }
+
+        .result-snippet {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .user-bar {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--card);
+            padding: 6px 12px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .theme-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .theme-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .google-login {
+            background: var(--card);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            color: var(--text);
+        }
+
+        .profile-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 350px;
+            height: 100%;
+            background: var(--card);
+            box-shadow: -2px 0 20px rgba(0,0,0,0.2);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .profile-panel.open {
+            right: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .admin-section {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .verified-badge {
+            color: #34a853;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .logo { font-size: 40px; }
+            .search-container { flex-direction: column; }
+            #searchBtn { padding: 12px; }
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="profile-panel" id="profilePanel">
+        <button onclick="closeProfile()" style="float: right; background: #ea4335;">✕</button>
+        <h2>📱 Мой профиль</h2>
+        <div id="profileContent"></div>
+    </div>
+
+    <div class="user-bar">
+        <div id="userStatus" class="user-info-display" onclick="openProfile()">
+            <span>👤 Гость</span>
+        </div>
+        <button class="google-login" id="googleBtn" onclick="handleGoogleLogin()">🔑 Войти</button>
+    </div>
+
+    <div class="theme-bar">
+        <button class="theme-btn" onclick="setTheme('light')">☀️</button>
+        <button class="theme-btn" onclick="setTheme('dark')">🌙</button>
+        <button class="theme-btn" onclick="setTheme('colorful')">🌈</button>
+    </div>
+
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">WR Search</div>
+            <div class="tagline">⚡ быстрый поиск от компании sonne™</div>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 Что хотите найти?" autocomplete="off">
+            <button id="searchBtn">Найти</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // ⚠️ ВАЖНО: ЗАМЕНИТЕ НА ВАШ URL ИЗ YANDEX CLOUD ПОСЛЕ ШАГА 4
+        const API_URL = 'https://functions.yandexcloud.net/ВАШ_ИДЕНТИФИКАТОР_ФУНКЦИИ';
+        
+        let currentUser = null;
+
+        function setTheme(theme) {
+            document.body.className = theme;
+            localStorage.setItem('wr_theme', theme);
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('wr_theme') || 'light';
+            setTheme(saved);
+        }
+
+        // Демо-вход (без Google, для теста)
+        function demoLogin() {
+            const demoUser = {
+                id: 'demo_' + Date.now(),
+                name: 'Демо Пользователь',
+                email: 'demo@wrsearch.com'
+            };
+            localStorage.setItem('wr_user', JSON.stringify(demoUser));
+            currentUser = demoUser;
+            updateUserUI();
+            closeProfile();
+            alert('Вы вошли как Демо-пользователь');
+        }
+
+        async function syncUserToBackend(user) {
+            try {
+                await fetch(`${API_URL}/user/sync`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+            } catch(e) { console.log('Sync error:', e); }
+        }
+
+        async function checkAuth() {
+            const savedUser = localStorage.getItem('wr_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                await syncUserToBackend(currentUser);
+                updateUserUI();
+            }
+        }
+
+        function updateUserUI() {
+            if (currentUser) {
+                document.getElementById('userStatus').innerHTML = `
+                    <span>👤 ${currentUser.name || 'Пользователь'}</span>
+                `;
+                document.getElementById('googleBtn').style.display = 'none';
+            }
+        }
+
+        async function search() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div style="text-align:center">🔍 Ищем...</div>';
+            
+            try {
+                const userId = currentUser ? currentUser.id : 'anonymous';
+                const res = await fetch(`${API_URL}/search?q=${encodeURIComponent(query)}&user=${userId}`);
+                const data = await res.json();
+                
+                resultsDiv.innerHTML = '';
+                if (!data.results || data.results.length === 0) {
+                    resultsDiv.innerHTML = '<div style="text-align:center">😕 Ничего не найдено</div>';
+                    return;
+                }
+                
+                data.results.forEach(r => {
+                    resultsDiv.innerHTML += `
+                        <div class="result-card">
+                            <div class="result-title"><a href="${r.link}" target="_blank">📄 ${r.title}</a></div>
+                            <div class="result-snippet">${r.snippet}</div>
+                            <div class="result-link">${r.link}</div>
+                        </div>
+                    `;
+                });
+            } catch(e) {
+                console.error(e);
+                resultsDiv.innerHTML = '<div style="text-align:center">❌ Ошибка поиска</div>';
+            }
+        }
+
+        async function openProfile() {
+            if (!currentUser) {
+                if(confirm('Войдите в аккаунт для доступа к профилю. Войти?')){
+                    demoLogin();
+                }
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_URL}/user/${currentUser.id}`);
+                let userData;
+                if(res.status === 404) {
+                    userData = currentUser;
+                } else {
+                    userData = await res.json();
+                }
+                
+                document.getElementById('profileContent').innerHTML = `
+                    <div style="margin: 20px 0">
+                        <div><strong>🆔 ID:</strong> <code>${userData.id}</code></div>
+                        <div><strong>👤 Имя:</strong> ${userData.name || currentUser.name}</div>
+                        <div><strong>📧 Email:</strong> ${userData.email || currentUser.email}</div>
+                        <div class="${userData.verified ? 'verified-badge' : ''}" style="margin: 10px 0">
+                            ${userData.verified ? '✅ Верифицирован' : '⭐ Не верифицирован'}
+                        </div>
+                        <div style="margin: 15px 0">
+                            <label>📝 Описание профиля:</label>
+                            <textarea id="bioInput" rows="3" placeholder="Расскажите о себе...">${userData.bio || ''}</textarea>
+                            <button onclick="updateBio()">💾 Сохранить</button>
+                        </div>
+                    </div>
+                    ${userData.role === 'admin' ? `
+                        <div class="admin-section">
+                            <h3>🔧 Админ-панель</h3>
+                            <input type="text" id="customQuery" placeholder="Запрос (например: погода)">
+                            <textarea id="customAnswer" rows="2" placeholder="Кастомный ответ..."></textarea>
+                            <button onclick="addCustomAnswer()">➕ Добавить ответ</button>
+                            <button onclick="loadAdminStats()">📊 Статистика</button>
+                            <div id="adminStats" style="margin-top: 10px"></div>
+                        </div>
+                    ` : ''}
+                    <button onclick="logout()" style="background:#ea4335; margin-top:20px; width:100%">🚪 Выйти</button>
+                `;
+            } catch(e) {
+                console.error(e);
+            }
+            
+            document.getElementById('profilePanel').classList.add('open');
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeProfile() {
+            document.getElementById('profilePanel').classList.remove('open');
+            document.getElementById('overlay').style.display = 'none';
+        }
+        
+        async function updateBio() {
+            const bio = document.getElementById('bioInput').value;
+            await fetch(`${API_URL}/user/${currentUser.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bio })
+            });
+            alert('✅ Описание сохранено!');
+        }
+        
+        async function addCustomAnswer() {
+            const query = document.getElementById('customQuery').value;
+            const answer = document.getElementById('customAnswer').value;
+            if(!query || !answer) {
+                alert('Заполните оба поля');
+                return;
+            }
+            await fetch(`${API_URL}/admin/custom`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query, answer, userId: currentUser.id })
+            });
+            alert('✅ Кастомный ответ добавлен!');
+            document.getElementById('customQuery').value = '';
+            document.getElementById('customAnswer').value = '';
+        }
+        
+        async function loadAdminStats() {
+            const res = await fetch(`${API_URL}/admin/stats?userId=${currentUser.id}`);
+            const stats = await res.json();
+            document.getElementById('adminStats').innerHTML = `
+                <div style="background: rgba(66,133,244,0.1); padding: 10px; border-radius: 8px;">
+                    <div>📊 Всего поисков: ${stats.totalSearches || 0}</div>
+                    <div>👥 Уникальных пользователей: ${stats.uniqueUsers || 0}</div>
+                    <div>💾 Кастомных ответов: ${stats.customAnswers || 0}</div>
+                </div>
+            `;
+        }
+        
+        function logout() {
+            localStorage.clear();
+            currentUser = null;
+            updateUserUI();
+            closeProfile();
+            document.getElementById('googleBtn').style.display = 'block';
+            document.getElementById('userStatus').innerHTML = '<span>👤 Гость</span>';
+            location.reload();
+        }
+        
+        // Обработка Google OAuth (через редирект)
+        function handleGoogleLogin() {
+            // Упрощённая версия: используем демо-вход
+            // Для полноценного Google Login нужно создать OAuth клиент в Google Cloud Console
+            demoLogin();
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            checkAuth();
+            document.getElementById('searchBtn').addEventListener('click', search);
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') search();
+            });
+            document.getElementById('overlay').addEventListener('click', closeProfile);
+        });
+    </script>
+</body>
+</html>
