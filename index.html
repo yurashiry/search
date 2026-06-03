@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>WR Search - от компании sonne™</title>
+    <title>WR Search — от компании sonne™</title>
+    
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
         * {
             margin: 0;
@@ -12,241 +16,391 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* ========== ТЕМЫ ========== */
         body.light {
-            --bg: #ffffff;
-            --text: #202124;
-            --card: #ffffff;
-            --border: #dfe1e5;
-            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --accent: #4285f4;
+            --accent-hover: #3367d6;
+            --border: #dadce0;
+            --card-bg: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
             --input-bg: #ffffff;
-            --result-bg: #ffffff;
         }
 
         body.dark {
-            --bg: #202124;
-            --text: #e8eaed;
-            --card: #303134;
-            --border: #5f6368;
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --accent: #8ab4f8;
+            --accent-hover: #aecbfa;
+            --border: #3c4043;
+            --card-bg: #2d2d2d;
             --shadow: 0 1px 3px rgba(0,0,0,0.3);
-            --input-bg: #303134;
-            --result-bg: #303134;
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+            --input-bg: #3c4043;
         }
 
         body.colorful {
-            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --text: #ffffff;
-            --card: rgba(255,255,255,0.95);
-            --border: rgba(255,255,255,0.3);
-            --shadow: 0 2px 8px rgba(0,0,0,0.2);
-            --input-bg: rgba(255,255,255,0.9);
-            --result-bg: rgba(255,255,255,0.95);
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --bg-secondary: rgba(255,255,255,0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.85);
+            --accent: #ffd93d;
+            --accent-hover: #ffed8a;
+            --border: rgba(255,255,255,0.2);
+            --card-bg: rgba(255,255,255,0.12);
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --shadow-hover: 0 12px 48px rgba(0,0,0,0.2);
+            --input-bg: rgba(255,255,255,0.15);
         }
 
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            padding: 16px;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease, color 0.2s ease;
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
         }
 
         .container {
-            max-width: 700px;
+            max-width: 720px;
             margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
         }
 
+        /* Логотип */
         .logo-section {
             text-align: center;
-            padding: 60px 0 30px;
+            padding: 80px 0 40px;
+            animation: fadeInUp 0.6s ease;
         }
 
         .logo {
-            font-size: 52px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc04, #34a853);
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc04, #34a853);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            letter-spacing: -1px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .tagline {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 5px;
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
         }
 
+        /* Поисковая строка */
         .search-container {
+            margin: 0 auto 20px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .search-wrapper {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 48px;
+            padding: 6px 6px 6px 24px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .search-wrapper:focus-within {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
         }
 
         #searchInput {
             flex: 1;
-            padding: 14px 18px;
+            padding: 16px 0;
             font-size: 16px;
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            background: var(--input-bg);
-            color: var(--text);
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
             outline: none;
+            font-weight: 400;
         }
 
-        #searchInput:focus {
-            border-color: #4285f4;
-            box-shadow: 0 0 0 2px rgba(66,133,244,0.3);
+        #searchInput::placeholder {
+            color: var(--text-secondary);
         }
 
         #searchBtn {
-            padding: 14px 24px;
-            background: #4285f4;
-            color: white;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--accent);
             border: none;
-            border-radius: 30px;
-            font-size: 16px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #searchBtn:hover {
-            background: #3367d6;
+            transform: scale(1.05);
+            background: var(--accent-hover);
         }
 
+        #searchBtn:active {
+            transform: scale(0.98);
+        }
+
+        /* Ссылка на Яндекс */
         .yandex-link {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease 0.2s both;
         }
 
         .yandex-link a {
-            color: #4285f4;
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 13px;
-            opacity: 0.8;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            background: var(--bg-secondary);
         }
 
-        body.dark .yandex-link a {
-            color: #8ab4f8;
+        .yandex-link a:hover {
+            color: var(--accent);
+            transform: translateX(3px);
         }
 
+        /* Результаты */
         #results {
-            margin-top: 20px;
+            margin-top: 30px;
+            animation: fadeIn 0.4s ease;
         }
 
         .result-card {
-            background: var(--result-bg);
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 12px;
+            background: var(--card-bg);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-radius: 20px;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
         }
 
         .result-title {
             font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .result-title a {
-            color: #1a0dab;
+            color: var(--accent);
             text-decoration: none;
+            transition: all 0.2s;
         }
 
-        body.dark .result-title a {
-            color: #8ab4f8;
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+
+        .custom-badge {
+            background: linear-gradient(135deg, #34a853, #1e8e3e);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .result-snippet {
             font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            line-height: 1.5;
+            opacity: 0.85;
+            margin-bottom: 12px;
         }
 
         .result-meta {
             font-size: 12px;
-            color: #006621;
+            color: var(--text-secondary);
             display: flex;
-            gap: 15px;
+            gap: 16px;
+            align-items: center;
         }
 
-        body.dark .result-meta {
-            color: #bdc1c6;
-        }
-
-        .custom-badge {
-            background: #34a853;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            display: inline-block;
-            margin-left: 10px;
-        }
-
+        /* Панель пользователя */
         .user-bar {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 20px;
+            right: 20px;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
-            background: var(--card);
-            padding: 6px 12px;
-            border-radius: 30px;
+            background: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 40px;
             box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
             z-index: 100;
+            transition: all 0.3s ease;
         }
 
+        .user-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .user-info-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 40px;
+            transition: background 0.2s;
+        }
+
+        .user-info-display:hover {
+            background: var(--bg-secondary);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4285f4, #ea4335);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Панель тем */
         .theme-bar {
             position: fixed;
-            bottom: 20px;
-            right: 10px;
+            bottom: 30px;
+            right: 20px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             z-index: 100;
         }
 
         .theme-btn {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: none;
-            background: var(--card);
+            background: var(--card-bg);
             box-shadow: var(--shadow);
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-hover);
         }
 
         .theme-btn:active {
             transform: scale(0.95);
         }
 
-        .google-login, .demo-login {
-            background: var(--card);
-            padding: 6px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
-            color: var(--text);
-        }
-
+        /* Профиль панель */
         .profile-panel {
             position: fixed;
             top: 0;
             right: -100%;
-            width: 85%;
-            max-width: 350px;
+            width: 90%;
+            max-width: 380px;
             height: 100%;
-            background: var(--card);
-            box-shadow: -2px 0 20px rgba(0,0,0,0.2);
-            transition: right 0.3s ease;
-            z-index: 1000;
-            padding: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: -4px 0 32px rgba(0,0,0,0.2);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            padding: 24px;
             overflow-y: auto;
         }
 
@@ -261,86 +415,113 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             display: none;
-            z-index: 999;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
         }
 
+        /* Админ секция */
         .admin-section {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 24px;
+            padding-top: 20px;
             border-top: 1px solid var(--border);
         }
 
+        .admin-section h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        /* Формы */
         textarea, input[type="text"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px 16px;
             margin: 8px 0;
-            border-radius: 8px;
+            border-radius: 16px;
             border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
+            background: var(--input-bg);
+            color: var(--text-primary);
             font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
         }
 
         button {
-            background: #4285f4;
+            background: var(--accent);
             color: white;
             border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 40px;
             cursor: pointer;
             font-size: 14px;
-            transition: opacity 0.2s;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
         }
 
         button:active {
-            opacity: 0.8;
-        }
-
-        .verified-badge {
-            color: #34a853;
-            font-weight: bold;
-        }
-
-        .user-info-display {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #4285f4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            transform: translateY(0);
         }
 
         .close-panel-btn {
             float: right;
             background: #ea4335;
-            padding: 8px 12px;
-        }
-
-        h3 {
-            margin: 15px 0 10px;
+            padding: 8px 16px;
         }
 
         hr {
             border-color: var(--border);
-            margin: 15px 0;
+            margin: 20px 0;
+        }
+
+        .verified-badge {
+            color: #34a853;
+            font-weight: 600;
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            word-break: break-all;
+        }
+
+        /* Загрузка */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         @media (max-width: 600px) {
-            .logo { font-size: 40px; }
-            .search-container { flex-direction: column; }
-            #searchBtn { padding: 12px; }
-            .logo-section { padding: 40px 0 20px; }
+            .logo { font-size: 44px; }
+            .logo-section { padding: 60px 0 30px; }
+            .search-wrapper { padding: 4px 4px 4px 18px; }
+            #searchBtn { width: 48px; height: 48px; }
+            .result-card { padding: 16px; }
         }
     </style>
 </head>
@@ -349,16 +530,15 @@
     
     <div class="profile-panel" id="profilePanel">
         <button class="close-panel-btn" onclick="closeProfile()">✕</button>
-        <h2>📱 Мой профиль</h2>
+        <h2 style="margin-bottom: 20px;">👤 Мой профиль</h2>
         <div id="profileContent"></div>
     </div>
 
     <div class="user-bar">
-        <div id="userStatus" class="user-info-display" onclick="openProfile()">
+        <div id="userStatus" class="user-info-display">
             <span>👤 Гость</span>
         </div>
-        <button class="google-login" id="googleBtn" onclick="initGoogleLogin()">🔑 Google</button>
-        <button class="demo-login" onclick="demoLogin()">🎭 Демо</button>
+        <div id="googleBtn"></div>
     </div>
 
     <div class="theme-bar">
@@ -374,8 +554,10 @@
         </div>
         
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="🔍 Что хотите найти?" autocomplete="off">
-            <button id="searchBtn">Найти</button>
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Что хотите найти?" autocomplete="off">
+                <button id="searchBtn">🔍</button>
+            </div>
         </div>
         
         <div class="yandex-link">
@@ -386,126 +568,112 @@
     </div>
 
     <script>
-        // ========== КАСТОМНЫЕ ОТВЕТЫ (БАЗА ЗНАНИЙ WR SEARCH) ==========
+        // ========== КАСТОМНЫЕ ОТВЕТЫ ==========
         const customAnswers = {
-            // Веронто / Weronto
-            'веронто': {
-                title: '📌 Информация о компании Веронто (WeRonto)',
-                snippet: 'Компания "WeRonto" распалась в 2026 году, сервера выключились. Сейчас не действует, работает под новым брендом: WR (от компании sonne™).',
-                link: '#'
-            },
-            'weronto': {
-                title: '📌 Информация о компании WeRonto',
-                snippet: 'Компания "WeRonto" распалась в 2026 году, сервера выключились. Сейчас не действует, работает под новым брендом: WR (от компании sonne™).',
-                link: '#'
-            },
-            
-            // WR / вр
-            'вр': {
-                title: '📌 Информация о компании WR',
-                snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: • WR Video • WR SRBIJA. Истинный владелец - sonne™.',
-                link: '#'
-            },
-            'wr': {
-                title: '📌 Информация о компании WR',
-                snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: • WR Video • WR SRBIJA. Истинный владелец - sonne™.',
-                link: '#'
-            },
-            
-            // Mike / Maik
-            'mike': {
-                title: '👤 Майк (Mike)',
-                snippet: 'Двоюродный брат создателя компании sonne™ (Юрия Ширяева). Владеет телекомпанией HYPER, созданной в Алтайске. Активно ведет деятельность в конкурсе WR eVision.',
-                link: '#'
-            },
-            'maik': {
-                title: '👤 Майк (Mike)',
-                snippet: 'Двоюродный брат создателя компании sonne™ (Юрия Ширяева). Владеет телекомпанией HYPER, созданной в Алтайске. Активно ведет деятельность в конкурсе WR eVision.',
-                link: '#'
-            },
-            
-            // Юрий Ширяев / yurskk
-            'юрий ширяев': {
-                title: '👤 Юрий Ширяев (Yuri Shiryaev)',
-                snippet: 'Создатель компаний: Morento (продана, уничтожена), WR (работает с sonne™), sonne™ (активно работает). Также создатель конкурса WR eVision (проходил в мае, продолжение в июне).',
-                link: '#'
-            },
-            'yurskk': {
-                title: '👤 Юрий Ширяев (Yuri Shiryaev)',
-                snippet: 'Создатель компаний: Morento (продана, уничтожена), WR (работает с sonne™), sonne™ (активно работает). Также создатель конкурса WR eVision.',
-                link: '#'
-            },
-            
-            // Sonne / сонне
-            'сонне': {
-                title: '📌 Информация о компании sonne™',
-                snippet: 'Главная информационно-технологичная компания в Алтайске. Востребована, хорошо конкурирует с компаниями СНГ. Владеет компаниями WR и HAORÏK.',
-                link: '#'
-            },
-            'sonne': {
-                title: '📌 Информация о компании sonne™',
-                snippet: 'Главная информационно-технологичная компания в Алтайске. Востребована, хорошо конкурирует с компаниями СНГ. Владеет компаниями WR и HAORÏK.',
-                link: '#'
-            },
-            
-            // Hyper / хайпер
-            'хайпер': {
-                title: '📌 Информация о компании HYPER',
-                snippet: 'Компания HYPER — телекомпания двоюродного брата создателя sonne™. Очень востребована в Алтайске, работает вместе с sonne™. Владеет HYPER TV — главной телекомпанией Алтайска.',
-                link: '#'
-            },
-            'hyper': {
-                title: '📌 Информация о компании HYPER',
-                snippet: 'Компания HYPER — телекомпания двоюродного брата создателя sonne™. Очень востребована в Алтайске, работает вместе с sonne™. Владеет HYPER TV — главной телекомпанией Алтайска.',
-                link: '#'
-            },
-            
-            // WR eVision
-            'wrevison': {
-                title: '🎤 Конкурс WR eVision',
-                snippet: 'Конкурс WR eVision, созданный Юрием Ширяевым. Проходил в мае, активно монтируется, будет продолжен в июне. Следите за новостями!',
-                link: '#'
-            },
-            'wr evision': {
-                title: '🎤 Конкурс WR eVision',
-                snippet: 'Конкурс WR eVision, созданный Юрием Ширяевым. Проходил в мае, активно монтируется, будет продолжен в июне.',
-                link: '#'
-            },
-            
-            // HAORÏK
-            'haorïk': {
-                title: '📌 Компания HAORÏK',
-                snippet: 'Компания HAORÏK — подразделение sonne™. Специализируется на инновационных технологиях и IT-решениях.',
-                link: '#'
-            },
-            'haorik': {
-                title: '📌 Компания HAORÏK',
-                snippet: 'Компания HAORÏK — подразделение sonne™. Специализируется на инновационных технологиях и IT-решениях.',
-                link: '#'
-            },
-            
-            // Morento
-            'morento': {
-                title: '📌 Компания Morento',
-                snippet: 'Ранее существовавшая компания, продана и уничтожена. Создатель — Юрий Ширяев.',
-                link: '#'
-            }
+            'веронто': { title: '📌 Компания Веронто (WeRonto)', snippet: 'Компания "WeRonto" распалась в 2026 году, сервера выключились. Сейчас не действует, работает под новым брендом: WR (от компании sonne™).' },
+            'weronto': { title: '📌 Компания WeRonto', snippet: 'Компания "WeRonto" распалась в 2026 году. Работает под новым брендом: WR (от компании sonne™).' },
+            'вр': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Услуги: WR Video, WR SRBIJA. Истинный владелец — sonne™.' },
+            'wr': { title: '📌 Компания WR', snippet: 'Созданная в Сербии компания WR — подкомпания sonne™. Истинный владелец — sonne™.' },
+            'mike': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™ (Юрия Ширяева). Владеет телекомпанией HYPER в Алтайске. Активно ведёт деятельность в WR eVision.' },
+            'maik': { title: '👤 Майк (Mike)', snippet: 'Двоюродный брат создателя sonne™. Владелец HYPER, участник WR eVision.' },
+            'юрий ширяев': { title: '👤 Юрий Ширяев', snippet: 'Создатель компаний: Morento (продана), WR, sonne™. Создатель конкурса WR eVision (май, продолжение в июне).' },
+            'yurskk': { title: '👤 Юрий Ширяев', snippet: 'Создатель sonne™, WR. Организатор WR eVision.' },
+            'сонне': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Конкурирует с ведущими компаниями СНГ. Владеет WR и HAORÏK.' },
+            'sonne': { title: '📌 Компания sonne™', snippet: 'Главная IT-компания в Алтайске. Владеет WR и HAORÏK.' },
+            'хайпер': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске, принадлежит Майку. Работает вместе с sonne™. Владеет HYPER TV — главным телеканалом Алтайска.' },
+            'hyper': { title: '📌 Компания HYPER', snippet: 'Телекомпания в Алтайске. HYPER TV — главный телеканал Алтайска.' },
+            'wrevison': { title: '🎤 WR eVision', snippet: 'Конкурс, созданный Юрием Ширяевым. Проходил в мае, продолжение в июне.' },
+            'wr evision': { title: '🎤 WR eVision', snippet: 'Музыкальный конкурс от Юрия Ширяева. Продолжение в июне.' },
+            'haorïk': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™, специализируется на инновационных IT-решениях.' },
+            'haorik': { title: '📌 HAORÏK', snippet: 'Подразделение sonne™.' },
+            'morento': { title: '📌 Morento', snippet: 'Ранее существовавшая компания, продана и уничтожена. Создатель — Юрий Ширяев.' }
         };
 
-        // Пользовательские данные
+        // ========== ПЕРЕМЕННЫЕ ==========
         let currentUser = null;
-        let usersDatabase = {};
+        let usersDB = {};
 
-        // Загрузка пользователей из localStorage
-        function loadUsersFromStorage() {
-            const saved = localStorage.getItem('wr_users');
-            if (saved) {
-                usersDatabase = JSON.parse(saved);
+        // ========== ИНИЦИАЛИЗАЦИЯ GOOGLE LOGIN ==========
+        function initGoogleLogin() {
+            const clientId ='727787416139-3nlhl4di044oils2liot2sjo1mj5iumv.apps.googleusercontent.com'; // ⚠️ ЗАМЕНИТЕ НА ВАШ CLIENT ID
+            
+            google.accounts.id.initialize({
+                client_id: clientId,
+                callback: handleGoogleCredential,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+            
+            google.accounts.id.renderButton(
+                document.getElementById('googleBtn'),
+                { 
+                    theme: 'outline', 
+                    size: 'medium',
+                    text: 'signin_with',
+                    shape: 'pill',
+                    width: 120
+                }
+            );
+        }
+
+        async function handleGoogleCredential(response) {
+            try {
+                // Декодируем JWT токен
+                const payload = parseJwt(response.credential);
+                
+                currentUser = {
+                    id: payload.sub,
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    role: 'user',
+                    verified: false,
+                    bio: ''
+                };
+                
+                // Сохраняем пользователя
+                if (!usersDB[currentUser.id]) {
+                    usersDB[currentUser.id] = currentUser;
+                    saveUsersToStorage();
+                } else {
+                    currentUser = { ...usersDB[currentUser.id], ...currentUser };
+                }
+                
+                localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
+                updateUserUI();
+                closeProfile();
+                
+                showToast('✅ Добро пожаловать, ' + currentUser.name);
+            } catch(e) {
+                console.error('Google login error:', e);
+                showToast('❌ Ошибка входа', true);
             }
         }
 
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // ========== РАБОТА С ХРАНИЛИЩЕМ ==========
+        function loadUsersFromStorage() {
+            const saved = localStorage.getItem('wr_users_db');
+            if (saved) usersDB = JSON.parse(saved);
+        }
+
         function saveUsersToStorage() {
-            localStorage.setItem('wr_users', JSON.stringify(usersDatabase));
+            localStorage.setItem('wr_users_db', JSON.stringify(usersDB));
+        }
+
+        function loadCustomAnswers() {
+            const saved = localStorage.getItem('wr_custom_answers');
+            if (saved) {
+                Object.assign(customAnswers, JSON.parse(saved));
+            }
         }
 
         // ========== ТЕМЫ ==========
@@ -519,7 +687,32 @@
             setTheme(saved);
         }
 
-        // ========== ПОИСК (кастомные ответы + Яндекс) ==========
+        // ========== УВЕДОМЛЕНИЯ ==========
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${isError ? '#ea4335' : '#34a853'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 40px;
+                font-size: 14px;
+                z-index: 2000;
+                animation: fadeInUp 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // ========== ПОИСК ==========
         function normalizeQuery(query) {
             return query.toLowerCase().trim().replace(/[^а-яa-z0-9]/g, '');
         }
@@ -536,8 +729,9 @@
             yandexLink.href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
             yandexLink.target = '_blank';
             
-            // Проверяем кастомные ответы
+            // Поиск в кастомных ответах
             let found = null;
+            
             for (const [key, value] of Object.entries(customAnswers)) {
                 if (normalizedQuery === key || normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
                     found = value;
@@ -545,217 +739,186 @@
                 }
             }
             
-            // Поиск по частичному совпадению
-            if (!found) {
-                for (const [key, value] of Object.entries(customAnswers)) {
-                    if (normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
-                        found = value;
-                        break;
-                    }
+            // Анимация загрузки
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Поиск...</div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                if (found) {
+                    resultsDiv.innerHTML = `
+                        <div class="result-card" style="animation: fadeInUp 0.3s ease">
+                            <div class="result-title">
+                                ${found.title}
+                                <span class="custom-badge">WR Search</span>
+                            </div>
+                            <div class="result-snippet">${found.snippet}</div>
+                            <div class="result-meta">
+                                <span>📌 Кастомный ответ WR Search</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="result-card" style="animation: fadeInUp 0.3s ease">
+                            <div class="result-title">
+                                🔍 Ничего не найдено
+                            </div>
+                            <div class="result-snippet">
+                                По запросу «${query}» нет информации в базе WR Search.
+                            </div>
+                            <div class="result-meta">
+                                <a href="https://yandex.ru/search/?text=${encodeURIComponent(query)}" target="_blank" style="color: var(--accent);">
+                                    🔎 Искать в Яндексе →
+                                </a>
+                            </div>
+                        </div>
+                    `;
                 }
-            }
-            
-            if (found) {
-                // Показываем кастомный ответ
-                resultsDiv.innerHTML = `
-                    <div class="result-card">
-                        <div class="result-title">
-                            ${found.title}
-                            <span class="custom-badge">WR Search</span>
-                        </div>
-                        <div class="result-snippet">${found.snippet}</div>
-                        <div class="result-meta">
-                            <span>📌 Кастомный ответ WR Search</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Если нет кастомного ответа — предложение поискать в Яндексе
-                resultsDiv.innerHTML = `
-                    <div class="result-card">
-                        <div class="result-title">
-                            🔍 Результатов в WR Search нет
-                        </div>
-                        <div class="result-snippet">
-                            По запросу «${query}» нет информации в базе WR Search.<br>
-                            Попробуйте поискать в Яндекс:
-                        </div>
-                        <div class="result-meta">
-                            <a href="https://yandex.ru/search/?text=${encodeURIComponent(query)}" target="_blank" style="color:#4285f4;">
-                                🔎 Искать «${query}» в Яндексе →
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Сохраняем историю поиска
-            if (currentUser) {
-                const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
-                history.unshift({ query, time: new Date().toISOString() });
-                if (history.length > 20) history.pop();
-                localStorage.setItem(`wr_history_${currentUser.id}`, JSON.stringify(history));
-            }
+                
+                // Сохраняем историю
+                if (currentUser) {
+                    const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
+                    history.unshift({ query, time: new Date().toISOString() });
+                    if (history.length > 20) history.pop();
+                    localStorage.setItem(`wr_history_${currentUser.id}`, JSON.stringify(history));
+                }
+            }, 300);
         }
 
-        // ========== АВТОРИЗАЦИЯ ==========
-        function demoLogin() {
-            const demoId = 'demo_' + Date.now();
-            currentUser = {
-                id: demoId,
-                name: 'Демо Пользователь',
-                email: 'demo@wrsearch.com',
-                role: 'user',
-                verified: false,
-                bio: 'Это демо-аккаунт WR Search'
-            };
-            
-            if (!usersDatabase[currentUser.id]) {
-                usersDatabase[currentUser.id] = currentUser;
-                saveUsersToStorage();
-            }
-            
-            localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
-            updateUserUI();
-            closeProfile();
-            alert('✅ Вы вошли как Демо-пользователь');
-        }
-
-        // Google Login (всплывающее окно)
-        function initGoogleLogin() {
-            // Для простоты показываем демо-вход, но с гугл-стилем
-            if (confirm('Для входа через Google нужна настройка OAuth. Использовать демо-вход?')) {
-                demoLogin();
-            }
-        }
-
-        function checkAuth() {
-            const saved = localStorage.getItem('wr_current_user');
-            if (saved) {
-                currentUser = JSON.parse(saved);
-                updateUserUI();
-            }
-        }
-
+        // ========== ПРОФИЛЬ ==========
         function updateUserUI() {
             if (currentUser) {
                 const initial = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
                 document.getElementById('userStatus').innerHTML = `
-                    <div class="user-avatar">${initial}</div>
+                    <div class="user-avatar">
+                        ${currentUser.picture ? `<img src="${currentUser.picture}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : initial}
+                    </div>
                     <span>${currentUser.name}</span>
                 `;
-                document.getElementById('googleBtn').style.display = 'none';
+            } else {
+                document.getElementById('userStatus').innerHTML = '<span>👤 Гость</span>';
             }
         }
 
-        // ========== ПРОФИЛЬ ==========
+        function getSearchHistoryHTML() {
+            const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser?.id}`) || '[]');
+            if (history.length === 0) return '<em>Нет истории поиска</em>';
+            return history.slice(0, 10).map(h => `
+                <div style="padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <span>🔍 ${h.query}</span>
+                    <span style="font-size: 10px; opacity: 0.6;">${new Date(h.time).toLocaleDateString()}</span>
+                </div>
+            `).join('');
+        }
+
         async function openProfile() {
             if (!currentUser) {
-                if (confirm('Войдите в аккаунт для доступа к профилю. Войти как Демо?')) {
-                    demoLogin();
-                }
+                showToast('🔑 Войдите через Google, чтобы открыть профиль');
                 return;
             }
             
-            const user = usersDatabase[currentUser.id] || currentUser;
+            const user = usersDB[currentUser.id] || currentUser;
             
             document.getElementById('profileContent').innerHTML = `
                 <div style="margin: 20px 0">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                        <div class="user-avatar" style="width: 64px; height: 64px; font-size: 28px;">
+                            ${user.picture ? `<img src="${user.picture}" style="width:100%;height:100%;border-radius:50%;">` : (user.name ? user.name.charAt(0) : 'U')}
+                        </div>
+                        <div>
+                            <h3>${user.name}</h3>
+                            <div>${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
+                        </div>
+                    </div>
+                    
                     <div><strong>🆔 Уникальный ID:</strong><br>
-                        <code style="font-size: 11px; word-break: break-all;">${user.id}</code>
-                        <button onclick="copyUserId()" style="margin-top: 5px;">📋 Копировать</button>
+                        <code style="font-size: 11px;">${user.id}</code>
+                        <button onclick="copyUserId()" style="margin-top: 8px; padding: 6px 12px;">📋 Копировать</button>
                     </div>
+                    
                     <hr>
-                    <div><strong>👤 Имя:</strong> ${user.name || 'Не указано'}</div>
+                    
                     <div><strong>📧 Email:</strong> ${user.email || 'Не указан'}</div>
-                    <div style="margin: 10px 0">
-                        ${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}
-                    </div>
+                    
                     <div style="margin: 15px 0">
                         <label>📝 Описание профиля:</label>
                         <textarea id="bioInput" rows="3" placeholder="Расскажите о себе...">${user.bio || ''}</textarea>
                         <button onclick="updateBio()">💾 Сохранить</button>
                     </div>
+                    
                     <hr>
+                    
                     <div><strong>📜 История поиска:</strong></div>
-                    <div id="searchHistory" style="font-size: 12px; max-height: 150px; overflow-y: auto;">
+                    <div id="searchHistory" style="font-size: 13px; max-height: 200px; overflow-y: auto; margin-top: 8px;">
                         ${getSearchHistoryHTML()}
                     </div>
                 </div>
                 ${user.role === 'admin' ? `
                     <div class="admin-section">
                         <h3>🔧 Админ-панель</h3>
-                        <p><small>Здесь можно управлять кастомными ответами</small></p>
                         <input type="text" id="newQueryKey" placeholder="Ключевое слово (например: wr)">
-                        <textarea id="newQueryTitle" rows="1" placeholder="Заголовок ответа..."></textarea>
+                        <input type="text" id="newQueryTitle" placeholder="Заголовок ответа">
                         <textarea id="newQueryAnswer" rows="2" placeholder="Текст ответа..."></textarea>
-                        <button onclick="addCustomAnswerAdmin()">➕ Добавить ответ</button>
-                        <button onclick="viewAllCustomAnswers()">📋 Все кастомные ответы</button>
-                        <div id="adminCustomList" style="margin-top: 10px; font-size: 12px;"></div>
-                        <hr>
-                        <h4>👥 Пользователи</h4>
-                        <button onclick="viewAllUsers()">Показать всех пользователей</button>
-                        <div id="adminUserList" style="margin-top: 10px; font-size: 12px;"></div>
+                        <button onclick="addCustomAnswer()">➕ Добавить ответ</button>
+                        <button onclick="viewAllCustomAnswers()" style="background: #34a853;">📋 Все ответы</button>
+                        <button onclick="viewAllUsers()" style="background: #fbbc04; color:#000;">👥 Пользователи</button>
+                        <div id="adminCustomList" style="margin-top: 12px;"></div>
                     </div>
                 ` : ''}
-                <button onclick="logout()" style="background:#ea4335; margin-top:20px; width:100%">🚪 Выйти</button>
+                <button onclick="logout()" style="background:#ea4335; margin-top: 20px; width: 100%;">🚪 Выйти</button>
             `;
             
             document.getElementById('profilePanel').classList.add('open');
             document.getElementById('overlay').style.display = 'block';
         }
         
-        function getSearchHistoryHTML() {
-            const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser?.id}`) || '[]');
-            if (history.length === 0) return '<em>Нет истории поиска</em>';
-            return history.slice(0, 10).map(h => `
-                <div style="padding: 4px 0; border-bottom: 1px solid var(--border);">
-                    🔍 ${h.query} <span style="font-size: 10px; opacity: 0.6;">${new Date(h.time).toLocaleString()}</span>
-                </div>
-            `).join('');
+        function closeProfile() {
+            document.getElementById('profilePanel').classList.remove('open');
+            document.getElementById('overlay').style.display = 'none';
         }
         
         function copyUserId() {
             if (currentUser) {
                 navigator.clipboard.writeText(currentUser.id);
-                alert('✅ ID скопирован!');
+                showToast('✅ ID скопирован!');
             }
         }
         
-        async function updateBio() {
+        function updateBio() {
             const bio = document.getElementById('bioInput').value;
-            if (currentUser && usersDatabase[currentUser.id]) {
-                usersDatabase[currentUser.id].bio = bio;
+            if (currentUser && usersDB[currentUser.id]) {
+                usersDB[currentUser.id].bio = bio;
                 saveUsersToStorage();
-                alert('✅ Описание сохранено!');
+                showToast('✅ Описание сохранено!');
             }
         }
         
         // ========== АДМИН ФУНКЦИИ ==========
-        function addCustomAnswerAdmin() {
+        function addCustomAnswer() {
             const key = document.getElementById('newQueryKey').value.toLowerCase().trim();
             const title = document.getElementById('newQueryTitle').value.trim();
             const answer = document.getElementById('newQueryAnswer').value.trim();
             
             if (!key || !answer) {
-                alert('Заполните ключевое слово и ответ!');
+                showToast('Заполните ключевое слово и ответ!', true);
                 return;
             }
             
             customAnswers[key] = {
                 title: title || `📌 Информация по запросу "${key}"`,
-                snippet: answer,
-                link: '#'
+                snippet: answer
             };
             
-            // Сохраняем кастомные ответы в localStorage
             localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswers));
+            showToast(`✅ Добавлен ответ для "${key}"`);
             
-            alert(`✅ Добавлен ответ для "${key}"`);
             document.getElementById('newQueryKey').value = '';
             document.getElementById('newQueryTitle').value = '';
             document.getElementById('newQueryAnswer').value = '';
-            
             viewAllCustomAnswers();
         }
         
@@ -766,11 +929,11 @@
             const keys = Object.keys(customAnswers);
             container.innerHTML = `
                 <strong>Всего ответов: ${keys.length}</strong>
-                <div style="max-height: 200px; overflow-y: auto; margin-top: 8px;">
+                <div style="max-height: 250px; overflow-y: auto; margin-top: 8px;">
                     ${keys.map(k => `
-                        <div style="padding: 5px; border-bottom: 1px solid var(--border);">
-                            <strong>${k}</strong>: ${customAnswers[k].snippet.substring(0, 50)}...
-                            <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 2px 8px; margin-left: 5px;">🗑</button>
+                        <div style="padding: 6px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>${k}</strong><br><span style="font-size: 10px;">${customAnswers[k].snippet.substring(0, 40)}...</span></span>
+                            <button onclick="deleteCustomAnswer('${k}')" style="background:#ea4335; padding: 4px 12px;">🗑</button>
                         </div>
                     `).join('')}
                 </div>
@@ -782,15 +945,15 @@
                 delete customAnswers[key];
                 localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswers));
                 viewAllCustomAnswers();
-                alert('Удалено!');
+                showToast('Удалено!');
             }
         }
         
         function viewAllUsers() {
-            const container = document.getElementById('adminUserList');
+            const container = document.getElementById('adminCustomList');
             if (!container) return;
             
-            const users = Object.values(usersDatabase);
+            const users = Object.values(usersDB);
             container.innerHTML = `
                 <strong>Всего пользователей: ${users.length}</strong>
                 <div style="max-height: 300px; overflow-y: auto; margin-top: 8px;">
@@ -799,54 +962,54 @@
                             <div><strong>${u.name || 'Без имени'}</strong> (${u.email || 'нет email'})</div>
                             <div style="font-size: 10px;">ID: ${u.id.substring(0, 30)}...</div>
                             <div>${u.verified ? '✅ Верифицирован' : '⭐ Не верифицирован'}</div>
-                            <button onclick="verifyUser('${u.id}', true)" style="background:#34a853;">✅ Верифицировать</button>
-                            <button onclick="verifyUser('${u.id}', false)" style="background:#ea4335;">❌ Снять</button>
-                            ${u.role !== 'admin' ? `<button onclick="makeAdmin('${u.id}')" style="background:#fbbc04; color:#000;">👑 Сделать админом</button>` : '<span style="color:#34a853;">👑 Админ</span>'}
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <button onclick="verifyUser('${u.id}', true)" style="background:#34a853;">✅ Верифицировать</button>
+                                <button onclick="verifyUser('${u.id}', false)" style="background:#ea4335;">❌ Снять</button>
+                                ${u.role !== 'admin' ? `<button onclick="makeAdmin('${u.id}')" style="background:#fbbc04; color:#000;">👑 Админ</button>` : '<span style="color:#34a853;">👑 Админ</span>'}
+                            </div>
                         </div>
                     `).join('')}
                 </div>
+                <button onclick="viewAllCustomAnswers()" style="margin-top: 12px;">← Назад к ответам</button>
             `;
         }
         
         function verifyUser(userId, verified) {
-            if (usersDatabase[userId]) {
-                usersDatabase[userId].verified = verified;
+            if (usersDB[userId]) {
+                usersDB[userId].verified = verified;
                 saveUsersToStorage();
                 viewAllUsers();
-                alert(`Статус верификации обновлён!`);
+                showToast(`Статус обновлён!`);
             }
         }
         
         function makeAdmin(userId) {
-            if (usersDatabase[userId]) {
-                usersDatabase[userId].role = 'admin';
+            if (usersDB[userId]) {
+                usersDB[userId].role = 'admin';
                 saveUsersToStorage();
+                if (currentUser && currentUser.id === userId) {
+                    currentUser.role = 'admin';
+                    localStorage.setItem('wr_current_user', JSON.stringify(currentUser));
+                }
                 viewAllUsers();
-                alert(`Пользователь теперь администратор!`);
+                showToast(`Пользователь теперь администратор!`);
             }
         }
         
-        function closeProfile() {
-            document.getElementById('profilePanel').classList.remove('open');
-            document.getElementById('overlay').style.display = 'none';
-        }
-        
         function logout() {
+            google.accounts.id.disableAutoSelect();
             localStorage.removeItem('wr_current_user');
             currentUser = null;
             updateUserUI();
             closeProfile();
-            document.getElementById('googleBtn').style.display = 'block';
-            document.getElementById('userStatus').innerHTML = '<span>👤 Гость</span>';
-            location.reload();
+            showToast('👋 Вы вышли из аккаунта');
         }
         
-        // Загрузка сохранённых кастомных ответов
-        function loadCustomAnswers() {
-            const saved = localStorage.getItem('wr_custom_answers');
+        function checkAuth() {
+            const saved = localStorage.getItem('wr_current_user');
             if (saved) {
-                const savedAnswers = JSON.parse(saved);
-                Object.assign(customAnswers, savedAnswers);
+                currentUser = JSON.parse(saved);
+                updateUserUI();
             }
         }
         
@@ -856,6 +1019,7 @@
             loadUsersFromStorage();
             loadCustomAnswers();
             checkAuth();
+            initGoogleLogin();
             
             document.getElementById('searchBtn').addEventListener('click', search);
             document.getElementById('searchInput').addEventListener('keypress', (e) => {
@@ -869,10 +1033,8 @@
                 const yandexLink = document.getElementById('yandexSearchLink');
                 if (query) {
                     yandexLink.href = `https://yandex.ru/search/?text=${encodeURIComponent(query)}`;
-                    yandexLink.style.opacity = '1';
                 } else {
                     yandexLink.href = '#';
-                    yandexLink.style.opacity = '0.5';
                 }
             });
         });
