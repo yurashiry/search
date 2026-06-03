@@ -829,5 +829,18 @@
             });
         });
     </script>
+    <!-- Временная кнопка -->
+<button onclick="showMyId()" style="position: fixed; bottom: 20px; left: 20px; background: #4285f4; z-index: 9999; padding: 8px 12px; border-radius: 20px; font-size: 12px; border: none; color: white;">🆔 Показать мой ID</button>
+
+<script>
+function showMyId() {
+    if (currentUser) {
+        alert('ВОТ ВАШ ID:\n' + currentUser.id + '\n\nСкопируйте его и пришлите мне');
+        console.log('User ID:', currentUser.id);
+    } else {
+        alert('Сначала войдите в аккаунт!');
+    }
+}
+</script>
 </body>
 </html>
