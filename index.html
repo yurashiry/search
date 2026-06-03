@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>WR Search — от компании sonne™</title>
     
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Форсируем загрузку свежей версии Google Identity Services -->
+    <script>
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://accounts.google.com/gsi/client?v=' + Date.now();
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        })();
+    </script>
     
     <style>
         * {
@@ -84,7 +93,7 @@
 
         .logo-section {
             text-align: center;
-            padding: 50px 0 30px;
+            padding: 50px 0 25px;
             animation: fadeInUp 0.6s ease;
         }
 
@@ -109,8 +118,8 @@
             text-align: center;
             font-size: 14px;
             opacity: 0.65;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            letter-spacing: 0.3px;
         }
 
         .search-container {
@@ -381,12 +390,6 @@
             margin: 0 auto 14px;
         }
 
-        .guest-login-btn {
-            background: var(--accent);
-            margin-top: 20px;
-            width: 100%;
-        }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -444,6 +447,8 @@
         
         <div id="results"></div>
     </div>
+
+    <div id="googleBtn" style="display: none;"></div>
 
     <script>
         // ========== КОНФИГУРАЦИЯ ==========
@@ -520,6 +525,14 @@
 
         // ========== GOOGLE LOGIN ==========
         function initGoogleLogin() {
+            const googleBtn = document.getElementById('googleBtn');
+            if (!googleBtn) return;
+            
+            if (typeof google === 'undefined' || !google.accounts) {
+                setTimeout(initGoogleLogin, 500);
+                return;
+            }
+            
             google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleCredential,
@@ -527,10 +540,10 @@
             });
             
             google.accounts.id.renderButton(
-                document.getElementById('googleBtn'),
+                googleBtn,
                 { 
                     theme: 'outline', 
-                    size: 'small',
+                    size: 'medium',
                     text: 'signin_with',
                     shape: 'pill'
                 }
@@ -660,32 +673,33 @@
             const panel = document.getElementById('profilePanel');
             
             if (!currentUser) {
-                // Гость — показываем только кнопку входа
                 document.getElementById('profileContent').innerHTML = `
                     <div style="text-align: center; padding: 30px 0;">
                         <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
                         <h3>Вы не авторизованы</h3>
                         <p style="margin: 16px 0; opacity: 0.7;">Войдите через Google, чтобы получить доступ к профилю</p>
-                        <div id="guestGoogleBtn" style="margin: 20px 0;"></div>
+                        <div id="guestGoogleBtn" style="margin: 20px 0; display: flex; justify-content: center;"></div>
                     </div>
                 `;
                 panel.classList.add('open');
                 document.getElementById('overlay').style.display = 'block';
                 
-                // Рендерим кнопку Google в панели гостя
-                google.accounts.id.renderButton(
-                    document.getElementById('guestGoogleBtn'),
-                    { 
-                        theme: 'outline', 
-                        size: 'medium',
-                        text: 'signin_with',
-                        shape: 'pill'
-                    }
-                );
+                if (typeof google !== 'undefined' && google.accounts) {
+                    google.accounts.id.renderButton(
+                        document.getElementById('guestGoogleBtn'),
+                        { 
+                            theme: 'outline', 
+                            size: 'medium',
+                            text: 'signin_with',
+                            shape: 'pill'
+                        }
+                    );
+                } else {
+                    document.getElementById('guestGoogleBtn').innerHTML = '<button onclick="initGoogleLogin()">🔑 Войти через Google</button>';
+                }
                 return;
             }
             
-            // Авторизованный пользователь
             let user;
             try {
                 const res = await fetch(`${API_URL}/user/${currentUser.id}`);
@@ -740,14 +754,13 @@
                 <button onclick="logout()" style="background:#ea4335; margin-top: 20px; width: 100%;">🚪 Выйти</button>
             `;
             
-            // Загружаем историю
             const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
             document.getElementById('searchHistory').innerHTML = history.slice(0, 10).map(h => `
                 <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">🔍 ${h.query} <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span></div>
             `).join('') || '<em>Нет истории</em>';
             
             if (user.role === 'admin') {
-                loadAllUsers(); // Загружаем список пользователей сразу
+                loadAllUsers();
             }
             
             panel.classList.add('open');
@@ -869,7 +882,9 @@
         }
         
         function logout() {
-            if (google.accounts?.id) google.accounts.id.disableAutoSelect();
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.disableAutoSelect();
+            }
             localStorage.removeItem('wr_current_user');
             currentUser = null;
             updateUserUI();
@@ -887,6 +902,13 @@
         
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         document.addEventListener('DOMContentLoaded', () => {
+            // Принудительная перезагрузка для сброса кэша
+            if (localStorage.getItem('wr_version') !== 'v3') {
+                localStorage.setItem('wr_version', 'v3');
+                window.location.reload(true);
+                return;
+            }
+            
             loadTheme();
             loadUsersFromStorage();
             checkAuth();
@@ -906,6 +928,5 @@
             });
         });
     </script>
-    <div id="googleBtn" style="display: none;"></div>
 </body>
     </html>
