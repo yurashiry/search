@@ -84,12 +84,12 @@
 
         .logo-section {
             text-align: center;
-            padding: 60px 0 40px;
+            padding: 50px 0 30px;
             animation: fadeInUp 0.6s ease;
         }
 
         .logo {
-            font-size: 68px;
+            font-size: 64px;
             font-weight: 800;
             background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc04, #34a853);
             background-size: 300% 300%;
@@ -100,9 +100,17 @@
         }
 
         .tagline {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.7;
-            margin-top: 10px;
+            margin-top: 8px;
+        }
+
+        .datetime {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.65;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
 
         .search-container {
@@ -117,7 +125,7 @@
             background: var(--input-bg);
             border: 2px solid var(--border);
             border-radius: 60px;
-            padding: 4px 4px 4px 24px;
+            padding: 4px 4px 4px 20px;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
         }
@@ -129,7 +137,7 @@
 
         #searchInput {
             flex: 1;
-            padding: 16px 8px;
+            padding: 14px 8px;
             font-size: 16px;
             border: none;
             background: transparent;
@@ -142,13 +150,13 @@
         }
 
         #searchBtn {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: var(--accent);
             border: none;
             cursor: pointer;
-            font-size: 22px;
+            font-size: 20px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -165,7 +173,7 @@
 
         .yandex-link {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .yandex-link a {
@@ -174,17 +182,17 @@
             font-size: 13px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 18px;
+            gap: 6px;
+            padding: 6px 14px;
             border-radius: 40px;
             background: var(--card-bg);
         }
 
         .result-card {
             background: var(--card-bg);
-            padding: 20px 24px;
-            margin-bottom: 16px;
-            border-radius: 24px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            border-radius: 20px;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             animation: fadeInUp 0.4s ease;
@@ -192,39 +200,40 @@
         }
 
         .result-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .custom-badge {
             background: linear-gradient(135deg, #34a853, #1e8e3e);
             color: white;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
             font-size: 10px;
         }
 
         .result-snippet {
             font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 12px;
+            line-height: 1.45;
+            margin-bottom: 10px;
+            opacity: 0.85;
         }
 
         .user-bar {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 16px;
+            right: 16px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             background: var(--card-bg);
-            padding: 8px 18px;
-            border-radius: 50px;
+            padding: 6px 14px;
+            border-radius: 40px;
             box-shadow: var(--shadow);
             z-index: 100;
             border: 1px solid var(--border);
@@ -233,13 +242,13 @@
         .user-info-display {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: linear-gradient(135deg, #4285f4, #ea4335);
             display: flex;
@@ -247,27 +256,28 @@
             justify-content: center;
             color: white;
             font-weight: 600;
+            font-size: 14px;
             overflow: hidden;
         }
 
         .theme-bar {
             position: fixed;
-            bottom: 30px;
-            right: 20px;
+            bottom: 20px;
+            right: 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             z-index: 100;
         }
 
         .theme-btn {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: none;
             background: var(--card-bg);
             box-shadow: var(--shadow);
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid var(--border);
@@ -277,8 +287,8 @@
             position: fixed;
             top: 0;
             right: -100%;
-            width: 90%;
-            max-width: 400px;
+            width: 85%;
+            max-width: 380px;
             height: 100%;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -313,21 +323,24 @@
 
         textarea, input[type="text"] {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 14px;
             margin: 8px 0;
-            border-radius: 16px;
+            border-radius: 14px;
             border: 1px solid var(--border);
             background: var(--input-bg);
             color: var(--text-primary);
+            font-size: 14px;
         }
 
         button {
             background: var(--accent);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 40px;
             cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
         .close-panel-btn {
@@ -337,7 +350,7 @@
 
         hr {
             border-color: var(--border);
-            margin: 20px 0;
+            margin: 18px 0;
         }
 
         .verified-badge {
@@ -355,17 +368,23 @@
 
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 35px;
         }
 
         .loading-spinner {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border: 3px solid var(--border);
             border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 14px;
+        }
+
+        .guest-login-btn {
+            background: var(--accent);
+            margin-top: 20px;
+            width: 100%;
         }
 
         @keyframes spin {
@@ -373,9 +392,12 @@
         }
 
         @media (max-width: 600px) {
-            .logo { font-size: 48px; }
-            .search-wrapper { padding: 4px 4px 4px 18px; }
-            #searchBtn { width: 48px; height: 48px; }
+            .logo { font-size: 44px; }
+            .logo-section { padding: 40px 0 20px; }
+            .search-wrapper { padding: 3px 3px 3px 16px; }
+            #searchInput { padding: 12px 6px; font-size: 15px; }
+            #searchBtn { width: 44px; height: 44px; font-size: 18px; }
+            .result-card { padding: 14px 18px; }
         }
     </style>
 </head>
@@ -384,15 +406,15 @@
     
     <div class="profile-panel" id="profilePanel">
         <button class="close-panel-btn" onclick="closeProfile()">✕</button>
-        <h2>👤 Мой профиль</h2>
+        <h2 style="margin-bottom: 20px;">👤 Профиль</h2>
         <div id="profileContent"></div>
     </div>
 
     <div class="user-bar">
         <div id="userStatus" class="user-info-display" onclick="openProfile()">
-            <span>👤 Гость</span>
+            <div class="user-avatar" id="userAvatar">👤</div>
+            <span id="userNameDisplay">Гость</span>
         </div>
-        <div id="googleBtn"></div>
     </div>
 
     <div class="theme-bar">
@@ -406,6 +428,8 @@
             <div class="logo">WR Search</div>
             <div class="tagline">⚡ быстрый поиск от компании sonne™</div>
         </div>
+        
+        <div class="datetime" id="datetimeDisplay"></div>
         
         <div class="search-container">
             <div class="search-wrapper">
@@ -427,10 +451,31 @@
         const GOOGLE_CLIENT_ID = '727787416139-3nlhl4di044oils2liot2sjo1mj5iumv.apps.googleusercontent.com';
         const ADMIN_USER_ID = '108637281898787580618';
 
-        // ========== ПЕРЕМЕННЫЕ ==========
         let currentUser = null;
         let usersDB = {};
-        let customAnswersCache = {};
+
+        // ========== ДАТА И ВРЕМЯ ==========
+        function updateDateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            
+            const days = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            
+            const dayName = days[now.getDay()];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            const dateString = `${day} ${month} ${year}, ${dayName}`;
+            
+            document.getElementById('datetimeDisplay').innerHTML = `${dateString} | ${timeString}`;
+        }
+        
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
 
         // ========== ХРАНИЛИЩЕ ==========
         function loadUsersFromStorage() {
@@ -440,15 +485,6 @@
 
         function saveUsersToStorage() {
             localStorage.setItem('wr_users_db', JSON.stringify(usersDB));
-        }
-
-        function loadCustomAnswersCache() {
-            const saved = localStorage.getItem('wr_custom_answers');
-            if (saved) customAnswersCache = JSON.parse(saved);
-        }
-
-        function saveCustomAnswersCache() {
-            localStorage.setItem('wr_custom_answers', JSON.stringify(customAnswersCache));
         }
 
         function setTheme(theme) {
@@ -471,14 +507,15 @@
                 transform: translateX(-50%);
                 background: ${isError ? '#ea4335' : '#34a853'};
                 color: white;
-                padding: 12px 24px;
-                border-radius: 50px;
+                padding: 10px 20px;
+                border-radius: 40px;
                 z-index: 2000;
                 animation: fadeInUp 0.3s ease;
+                font-size: 14px;
                 white-space: nowrap;
             `;
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => toast.remove(), 2500);
         }
 
         // ========== GOOGLE LOGIN ==========
@@ -493,7 +530,7 @@
                 document.getElementById('googleBtn'),
                 { 
                     theme: 'outline', 
-                    size: 'medium',
+                    size: 'small',
                     text: 'signin_with',
                     shape: 'pill'
                 }
@@ -520,7 +557,6 @@
                     bio: ''
                 };
                 
-                // Синхронизируем с бэкендом
                 const syncRes = await fetch(`${API_URL}/user/sync`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -530,10 +566,8 @@
                 const savedUser = await syncRes.json();
                 currentUser = savedUser;
                 
-                // Проверка на админа
                 if (currentUser.id === ADMIN_USER_ID) {
                     currentUser.role = 'admin';
-                    // Обновляем роль в бэкенде
                     await fetch(`${API_URL}/user/${currentUser.id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
@@ -546,8 +580,7 @@
                 closeProfile();
                 showToast('✅ Добро пожаловать, ' + currentUser.name);
             } catch(e) {
-                console.error('Login error:', e);
-                showToast('❌ Ошибка входа в бэкенд', true);
+                showToast('❌ Ошибка входа', true);
             }
         }
 
@@ -576,7 +609,7 @@
                                 ${r.isCustom ? '<span class="custom-badge">WR Search</span>' : ''}
                             </div>
                             <div class="result-snippet">${r.snippet}</div>
-                            ${r.link !== '#' ? `<div class="result-meta"><a href="${r.link}" target="_blank">${r.link}</a></div>` : ''}
+                            ${r.link !== '#' ? `<div class="result-meta"><a href="${r.link}" target="_blank" style="color: var(--accent); font-size: 12px;">${r.link}</a></div>` : ''}
                         </div>
                     `).join('');
                 } else {
@@ -588,7 +621,6 @@
                     `;
                 }
                 
-                // Сохраняем историю локально
                 if (currentUser) {
                     const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
                     history.unshift({ query, time: new Date().toISOString() });
@@ -596,7 +628,6 @@
                     localStorage.setItem(`wr_history_${currentUser.id}`, JSON.stringify(history));
                 }
             } catch (error) {
-                console.error('Search error:', error);
                 resultsDiv.innerHTML = `
                     <div class="result-card">
                         <div class="result-title">❌ Ошибка поиска</div>
@@ -608,41 +639,59 @@
 
         // ========== ПРОФИЛЬ ==========
         function updateUserUI() {
+            const avatarDiv = document.getElementById('userAvatar');
+            const nameSpan = document.getElementById('userNameDisplay');
+            
             if (currentUser) {
                 const initial = currentUser.name?.charAt(0).toUpperCase() || 'U';
-                document.getElementById('userStatus').innerHTML = `
-                    <div class="user-avatar">
-                        ${currentUser.picture ? `<img src="${currentUser.picture}" style="width:100%;height:100%;object-fit:cover;">` : initial}
-                    </div>
-                    <span>${currentUser.name}</span>
-                `;
-                const googleBtn = document.getElementById('googleBtn');
-                if (googleBtn) googleBtn.style.display = 'none';
+                if (currentUser.picture) {
+                    avatarDiv.innerHTML = `<img src="${currentUser.picture}" style="width:100%;height:100%;object-fit:cover;">`;
+                } else {
+                    avatarDiv.innerHTML = initial;
+                }
+                nameSpan.innerText = currentUser.name;
             } else {
-                document.getElementById('userStatus').innerHTML = '<span>👤 Гость</span>';
-                const googleBtn = document.getElementById('googleBtn');
-                if (googleBtn) googleBtn.style.display = 'block';
+                avatarDiv.innerHTML = '👤';
+                nameSpan.innerText = 'Гость';
             }
         }
 
         async function openProfile() {
+            const panel = document.getElementById('profilePanel');
+            
             if (!currentUser) {
-                showToast('🔑 Войдите через Google');
+                // Гость — показываем только кнопку входа
+                document.getElementById('profileContent').innerHTML = `
+                    <div style="text-align: center; padding: 30px 0;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
+                        <h3>Вы не авторизованы</h3>
+                        <p style="margin: 16px 0; opacity: 0.7;">Войдите через Google, чтобы получить доступ к профилю</p>
+                        <div id="guestGoogleBtn" style="margin: 20px 0;"></div>
+                    </div>
+                `;
+                panel.classList.add('open');
+                document.getElementById('overlay').style.display = 'block';
+                
+                // Рендерим кнопку Google в панели гостя
+                google.accounts.id.renderButton(
+                    document.getElementById('guestGoogleBtn'),
+                    { 
+                        theme: 'outline', 
+                        size: 'medium',
+                        text: 'signin_with',
+                        shape: 'pill'
+                    }
+                );
                 return;
             }
             
-            // Получаем свежие данные с бэкенда
+            // Авторизованный пользователь
             let user;
             try {
                 const res = await fetch(`${API_URL}/user/${currentUser.id}`);
-                if (res.ok) {
-                    user = await res.json();
-                } else {
-                    user = currentUser;
-                }
-            } catch(e) {
-                user = currentUser;
-            }
+                if (res.ok) user = await res.json();
+                else user = currentUser;
+            } catch(e) { user = currentUser; }
             
             document.getElementById('profileContent').innerHTML = `
                 <div style="margin: 20px 0">
@@ -651,15 +700,15 @@
                             ${user.picture ? `<img src="${user.picture}" style="width:100%;height:100%;object-fit:cover;">` : (user.name?.charAt(0) || 'U')}
                         </div>
                         <div>
-                            <h3>${user.name}</h3>
-                            <div>${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
+                            <h3 style="margin: 0;">${user.name}</h3>
+                            <div style="margin-top: 5px;">${user.verified ? '<span class="verified-badge">✅ Верифицирован</span>' : '⭐ Не верифицирован'}</div>
                             ${user.role === 'admin' ? '<div><span class="verified-badge">👑 Администратор</span></div>' : ''}
                         </div>
                     </div>
                     
                     <div><strong>🆔 Уникальный ID:</strong><br>
-                        <code>${user.id}</code>
-                        <button onclick="copyUserId()" style="margin-top: 8px;">📋 Копировать</button>
+                        <code style="font-size: 11px;">${user.id}</code>
+                        <button onclick="copyUserId()" style="margin-top: 8px; padding: 6px 12px;">📋 Копировать</button>
                     </div>
                     
                     <hr>
@@ -675,7 +724,7 @@
                     <hr>
                     
                     <div><strong>📜 История поиска:</strong></div>
-                    <div id="searchHistory"></div>
+                    <div id="searchHistory" style="font-size: 13px; max-height: 200px; overflow-y: auto; margin-top: 8px;"></div>
                 </div>
                 ${user.role === 'admin' ? `
                     <div class="admin-section">
@@ -684,20 +733,24 @@
                         <input type="text" id="newQueryTitle" placeholder="Заголовок ответа">
                         <textarea id="newQueryAnswer" rows="2" placeholder="Текст ответа..."></textarea>
                         <button onclick="addCustomAnswer()">➕ Добавить ответ</button>
-                        <button onclick="loadAllCustomAnswers()">📋 Все ответы</button>
-                        <button onclick="loadAllUsers()" style="background: #34a853;">👥 Пользователи</button>
+                        <button onclick="loadAllUsers()" style="background: #34a853; margin-left: 8px;">👥 Пользователи</button>
                         <div id="adminCustomList" style="margin-top: 12px;"></div>
                     </div>
                 ` : ''}
                 <button onclick="logout()" style="background:#ea4335; margin-top: 20px; width: 100%;">🚪 Выйти</button>
             `;
             
+            // Загружаем историю
             const history = JSON.parse(localStorage.getItem(`wr_history_${currentUser.id}`) || '[]');
             document.getElementById('searchHistory').innerHTML = history.slice(0, 10).map(h => `
-                <div style="padding: 8px 0; border-bottom: 1px solid var(--border);">🔍 ${h.query} <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span></div>
+                <div style="padding: 6px 0; border-bottom: 1px solid var(--border);">🔍 ${h.query} <span style="font-size: 10px;">${new Date(h.time).toLocaleDateString()}</span></div>
             `).join('') || '<em>Нет истории</em>';
             
-            document.getElementById('profilePanel').classList.add('open');
+            if (user.role === 'admin') {
+                loadAllUsers(); // Загружаем список пользователей сразу
+            }
+            
+            panel.classList.add('open');
             document.getElementById('overlay').style.display = 'block';
         }
         
@@ -723,7 +776,7 @@
                 });
                 showToast('✅ Описание сохранено!');
             } catch(e) {
-                showToast('❌ Ошибка сохранения', true);
+                showToast('❌ Ошибка', true);
             }
         }
         
@@ -755,36 +808,12 @@
                     document.getElementById('newQueryKey').value = '';
                     document.getElementById('newQueryTitle').value = '';
                     document.getElementById('newQueryAnswer').value = '';
-                    loadAllCustomAnswers();
+                    loadAllUsers();
                 } else {
                     showToast('❌ Нет прав администратора', true);
                 }
             } catch (error) {
-                showToast('❌ Ошибка подключения к серверу', true);
-            }
-        }
-        
-        async function loadAllCustomAnswers() {
-            showToast('Загрузка ответов...');
-            // Показываем локальные ответы + с сервера
-            const container = document.getElementById('adminCustomList');
-            if (!container) return;
-            
-            container.innerHTML = '<div>Загрузка с сервера...</div>';
-            
-            try {
-                // Показываем только кастомные ответы с бэкенда
-                container.innerHTML = `
-                    <strong>📋 Кастомные ответы (из облака):</strong><br>
-                    <div style="color: var(--text-secondary); font-size: 12px; margin-top: 5px;">
-                        Ответы добавляются через эту панель и сразу сохраняются в облаке.
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <em>Для просмотра всех ответов откройте базу данных YDB</em>
-                    </div>
-                `;
-            } catch(e) {
-                container.innerHTML = '<div>Ошибка загрузки</div>';
+                showToast('❌ Ошибка подключения', true);
             }
         }
         
@@ -814,7 +843,6 @@
                                 </div>
                             `).join('')}
                         </div>
-                        <button onclick="loadAllCustomAnswers()" style="margin-top: 12px;">← Назад к ответам</button>
                     `;
                 }
             } catch(e) {
@@ -847,7 +875,6 @@
             updateUserUI();
             closeProfile();
             showToast('👋 Вы вышли');
-            location.reload();
         }
         
         function checkAuth() {
@@ -862,7 +889,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme();
             loadUsersFromStorage();
-            loadCustomAnswersCache();
             checkAuth();
             initGoogleLogin();
             
@@ -880,5 +906,6 @@
             });
         });
     </script>
+    <div id="googleBtn" style="display: none;"></div>
 </body>
     </html>
